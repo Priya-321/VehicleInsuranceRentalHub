@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Agent List</title></head>
+<body>
+    <h2>All Agents</h2>
+    <a href="/agent/form">Add New Agent</a>
+    <table border="1">
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Action</th></tr>
+        <tr th:each="a : ${agents}">
+            <td th:text="${a.id}"></td>
+            <td th:text="${a.name}"></td>
+            <td th:text="${a.email}"></td>
+            <td th:text="${a.phone}"></td>
+            <td th:text="${a.role}"></td>
+            <td><a th:href="@{/agent/delete/{id}(id=${a.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>
