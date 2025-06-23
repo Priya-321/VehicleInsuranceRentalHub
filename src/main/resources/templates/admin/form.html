@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Add Admin</title></head>
+<body>
+    <h2>Add Admin</h2>
+    <form th:action="@{/admin/save}" th:object="${admin}" method="post">
+        Name: <input type="text" th:field="*{name}"><br>
+        Email: <input type="email" th:field="*{email}"><br>
+        Password: <input type="password" th:field="*{password}"><br>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin List</title></head>
+<body>
+    <h2>All Admins</h2>
+    <a href="/admin/form">Add New Admin</a>
+    <table border="1">
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>
+        <tr th:each="a : ${admins}">
+            <td th:text="${a.id}"></td>
+            <td th:text="${a.name}"></td>
+            <td th:text="${a.email}"></td>
+            <td><a th:href="@{/admin/delete/{id}(id=${a.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>
