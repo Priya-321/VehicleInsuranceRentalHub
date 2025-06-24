@@ -3,7 +3,21 @@
 <head><title>Agent List</title></head>
 <body>
     <h2>All Agents</h2>
+
     <a href="/agent/form">Add New Agent</a>
+
+    <form method="get" th:action="@{/agent/list}">
+        Filter by Role:
+        <select name="role">
+            <option value="" th:selected="${filter == ''}">All</option>
+            <option value="RENTAL" th:selected="${filter == 'RENTAL'}">RENTAL</option>
+            <option value="INSURANCE" th:selected="${filter == 'INSURANCE'}">INSURANCE</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <br/>
+
     <table border="1">
         <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Action</th></tr>
         <tr th:each="a : ${agents}">

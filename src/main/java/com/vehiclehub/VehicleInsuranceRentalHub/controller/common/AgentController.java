@@ -17,11 +17,21 @@ public class AgentController {
     private AgentService agentService;
 
     @GetMapping("/list")
-    public String listAgents(Model model) {
-        List<Agent> agents = agentService.getAllAgents();
+    public String listAgents(@RequestParam(name = "role", required = false) String role, Model model) {
+        List<Agent> agents;
+
+        if (role != null && !role.isEmpty()) {
+            agents = agentService.getAgentsByRole(role);
+            model.addAttribute("filter", role);
+        } else {
+            agents = agentService.getAllAgents();
+            model.addAttribute("filter", "");
+        }
+
         model.addAttribute("agents", agents);
-        return "agent/list"; // templates/agent/list.html
+        return "agent/list";
     }
+
 
     @GetMapping("/form")
     public String showAgentForm(Model model) {
@@ -40,4 +50,7 @@ public class AgentController {
         agentService.deleteAgent(id);
         return "redirect:/agent/list";
     }
+    
+    
+
 }

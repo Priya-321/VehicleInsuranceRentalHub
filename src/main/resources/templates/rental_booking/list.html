@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Rental Bookings</title></head>
+<body>
+    <h2>Rental Booking History</h2>
+
+    <a href="/rental-booking/form">New Booking</a><br/><br/>
+
+    <table border="1">
+        <tr><th>ID</th><th>Customer</th><th>Vehicle</th><th>From</th><th>To</th><th>Status</th><th>Late Charges</th><th>Action</th></tr>
+        <tr th:each="b : ${bookings}">
+            <td th:text="${b.id}"></td>
+            <td th:text="${b.customer.name}"></td>
+            <td th:text="${b.vehicle.model} + ' [' + ${b.vehicle.numberPlate} + ']'"></td>
+            <td th:text="${b.bookingDate}"></td>
+            <td th:text="${b.returnDate}"></td>
+            <td th:text="${b.status}"></td>
+            <td th:text="${b.lateCharges}"></td>
+            <td><a th:href="@{/rental-booking/delete/{id}(id=${b.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>

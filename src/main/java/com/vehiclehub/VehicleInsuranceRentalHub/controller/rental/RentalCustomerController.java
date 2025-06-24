@@ -1,0 +1,63 @@
+package com.vehiclehub.VehicleInsuranceRentalHub.controller.rental;
+
+import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalCustomer;
+import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
+import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
+import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalCustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/rental-customer")
+public class RentalCustomerController {
+
+    @Autowired
+    private RentalCustomerService rentalCustomerService;
+
+    @Autowired
+    private AgentService agentService;
+
+    @GetMapping("/list")
+    public String listCustomers(@RequestParam(name = "agentId", required = false) Integer agentId, Model model) {
+        List<RentalCustomer> customers;
+
+        if (agentId != null) {
+            customers = rentalCustomerService.getCustomersByAgentId(agentId);
+            model.addAttribute("selectedAgentId", agentId);
+        } else {
+            customers = rentalCustomerService.getAllCustomers();
+            model.addAttribute("selectedAgentId", "");
+        }
+
+        List<Agent> agents = agentService.getAgentsByRole("RENTAL"); // Only rental agents
+        model.addAttribute("agents", agents);
+        model.addAttribute("customers", customers);
+        return "rental_customer/list";
+    }
+
+    @GetMapping("/form")
+    public String showCustomerForm(Model model) {
+        model.addAttribute("customer", new RentalCustomer());
+        model.addAttribute("agents", agentService.getAgentsByRole("RENTAL"));
+        return "rental_customer/form";
+    }
+
+    @PostMapping("/save")
+    public String saveCustomer(@ModelAttribute RentalCustomer customer, @RequestParam int agent) {
+        Agent selectedAgent = agentService.getAgentById(agent); // Fetch full Agent object
+        customer.setAgent(selectedAgent);
+        rentalCustomerService.saveCustomer(customer);
+        return "redirect:/rental-customer/list";
+    }
+
+
+    @GetMapping("/delete/{id}")
+    public String deleteCustomer(@PathVariable int id) {
+        rentalCustomerService.deleteCustomer(id);
+        return "redirect:/rental-customer/list";
+    }
+}

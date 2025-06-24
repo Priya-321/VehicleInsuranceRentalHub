@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Company Vehicles</title></head>
+<body>
+    <h2>Company Vehicles</h2>
+
+    <a href="/company-vehicle/form">Add New Vehicle</a>
+
+    <form method="get" th:action="@{/company-vehicle/list}">
+        Filter by Status:
+        <select name="status">
+            <option value="" th:selected="${filter == ''}">All</option>
+            <option value="Available" th:selected="${filter == 'Available'}">Available</option>
+            <option value="Booked" th:selected="${filter == 'Booked'}">Booked</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <br/>
+
+    <table border="1">
+        <tr><th>ID</th><th>Model</th><th>Plate</th><th>Type</th><th>Status</th><th>Action</th></tr>
+        <tr th:each="v : ${vehicles}">
+            <td th:text="${v.id}"></td>
+            <td th:text="${v.model}"></td>
+            <td th:text="${v.numberPlate}"></td>
+            <td th:text="${v.type}"></td>
+            <td th:text="${v.status}"></td>
+            <td><a th:href="@{/company-vehicle/delete/{id}(id=${v.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>

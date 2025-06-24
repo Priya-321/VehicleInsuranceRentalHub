@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Add Rental Customer</title></head>
+<body>
+    <h2>Add Rental Customer</h2>
+
+    <form th:action="@{/rental-customer/save}" th:object="${customer}" method="post">
+        Name: <input type="text" th:field="*{name}" /><br/>
+        Email: <input type="email" th:field="*{email}" /><br/>
+        Phone: <input type="text" th:field="*{phone}" /><br/>
+        Address: <input type="text" th:field="*{address}" /><br/>
+
+        Assigned Agent:
+        <select th:field="*{agent}">
+              <option th:each="a : ${agents}" th:value="${a.id}" th:text="${a.name}"></option>
+        </select>
+        <br/>
+
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
