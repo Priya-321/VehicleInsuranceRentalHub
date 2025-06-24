@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Insurance Customers</title></head>
+<body>
+    <h2>Insurance Customers</h2>
+
+    <a href="/insurance-customer/form">Add New Customer</a>
+
+    <form method="get" th:action="@{/insurance-customer/list}">
+        Filter by Agent:
+        <select name="agentId">
+            <option value="">-- All --</option>
+            <option th:each="a : ${agents}" 
+                    th:value="${a.id}" 
+                    th:text="${a.name}" 
+                    th:selected="${a.id == selectedAgentId}">
+            </option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <br/>
+
+    <table border="1">
+        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Agent</th><th>Action</th></tr>
+        <tr th:each="c : ${customers}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.name}"></td>
+            <td th:text="${c.email}"></td>
+            <td th:text="${c.phone}"></td>
+            <td th:text="${c.address}"></td>
+            <td th:text="${c.agent.name}"></td>
+            <td><a th:href="@{/insurance-customer/delete/{id}(id=${c.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>

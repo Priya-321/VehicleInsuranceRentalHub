@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Add Customer Vehicle</title></head>
+<body>
+    <h2>Add Customer Vehicle</h2>
+
+    <form th:action="@{/customer-vehicle/save}" th:object="${vehicle}" method="post">
+        Registration Number: <input type="text" th:field="*{registrationNumber}" /><br/>
+        Model: <input type="text" th:field="*{model}" /><br/>
+        Type: <input type="text" th:field="*{type}" /><br/>
+
+        Customer:
+        <select name="customer">
+            <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select><br/>
+
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
