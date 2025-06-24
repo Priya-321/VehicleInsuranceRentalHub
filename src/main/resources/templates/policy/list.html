@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Insurance Policies</title></head>
+<body>
+    <h2>Insurance Policies</h2>
+
+    <a href="/policy/form">Purchase New Policy</a><br/><br/>
+
+    <table border="1">
+        <tr><th>ID</th><th>Vehicle</th><th>Plan</th><th>Status</th><th>Start Date</th><th>End Date</th><th>Action</th></tr>
+        <tr th:each="p : ${policies}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.vehicle.registrationNumber}"></td>
+            <td th:text="${p.plan.name}"></td>
+            <td th:text="${p.status}"></td>
+            <td th:text="${p.startDate}"></td>
+            <td th:text="${p.endDate}"></td>
+            <td><a th:href="@{/policy/delete/{id}(id=${p.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>
