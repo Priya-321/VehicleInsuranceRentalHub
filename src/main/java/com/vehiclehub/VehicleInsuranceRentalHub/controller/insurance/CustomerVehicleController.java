@@ -22,22 +22,12 @@ public class CustomerVehicleController {
     private InsuranceCustomerService customerService;
 
     @GetMapping("/list")
-    public String listVehicles(@RequestParam(name = "customerId", required = false) Integer customerId, Model model) {
-        List<CustomerVehicle> vehicles;
-
-        if (customerId != null) {
-            vehicles = vehicleService.getVehiclesByCustomerId(customerId);
-            model.addAttribute("selectedCustomerId", customerId);
-        } else {
-            vehicles = vehicleService.getAllVehicles();
-            model.addAttribute("selectedCustomerId", "");
-        }
-
-        List<InsuranceCustomer> customers = customerService.getAllCustomers();
-        model.addAttribute("customers", customers);
+    public String listVehicles(Model model) {
+        List<CustomerVehicle> vehicles = vehicleService.getAllVehicles();
         model.addAttribute("vehicles", vehicles);
         return "customer_vehicle/list";
     }
+
 
     @GetMapping("/form")
     public String showVehicleForm(Model model) {

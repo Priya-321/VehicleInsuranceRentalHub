@@ -5,21 +5,7 @@
     <h2>Insured Customer Vehicles</h2>
 
     <a href="/customer-vehicle/form">Add New Vehicle</a>
-
-    <form method="get" th:action="@{/customer-vehicle/list}">
-        Filter by Customer:
-        <select name="customerId">
-            <option value="">-- All --</option>
-            <option th:each="c : ${customers}" 
-                    th:value="${c.id}" 
-                    th:text="${c.name}" 
-                    th:selected="${c.id == selectedCustomerId}">
-            </option>
-        </select>
-        <button type="submit">Filter</button>
-    </form>
-
-    <br/>
+    <br/><br/>
 
     <table border="1">
         <tr><th>ID</th><th>Registration No</th><th>Model</th><th>Type</th><th>Owner</th><th>Action</th></tr>
