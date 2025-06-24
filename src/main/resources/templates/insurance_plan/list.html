@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Insurance Plans</title></head>
+<body>
+    <h2>Insurance Plans</h2>
+
+    <a href="/insurance-plan/form">Add New Plan</a><br/><br/>
+
+    <form method="get" th:action="@{/insurance-plan/list}">
+        Filter:
+        Duration (months): <input type="number" name="duration" />
+        OR Max Premium: <input type="number" step="0.01" name="maxPremium" />
+        OR Name Contains: <input type="text" name="keyword" />
+        <button type="submit">Apply</button>
+    </form>
+
+    <br/>
+
+    <table border="1">
+        <tr><th>ID</th><th>Name</th><th>Duration (months)</th><th>Premium</th><th>Description</th><th>Action</th></tr>
+        <tr th:each="p : ${plans}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.name}"></td>
+            <td th:text="${p.durationInMonths}"></td>
+            <td th:text="${p.premium}"></td>
+            <td th:text="${p.description}"></td>
+            <td><a th:href="@{/insurance-plan/delete/{id}(id=${p.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>
