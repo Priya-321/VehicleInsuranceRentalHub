@@ -13,6 +13,7 @@ public class Agent {
     private String email;
     private String phone;
     private String role; // "RENTAL" or "INSURANCE"
+    private String password;
 
     
     public int getId() {
@@ -66,26 +67,26 @@ public class Agent {
 
 
 	
-
-	@ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
-	
-	public Admin getAdmin() {
-		return admin;
+	public String getPassword() {
+		return password;
 	}
 
 
-	public void setAdmin(Admin admin) {
-		this.admin = admin;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 
 	@Override
 	public String toString() {
 		return "Agent [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", role=" + role
-				+ ", admin=" + admin + "]";
+				+ ", password=" + password + "]";
 	}
 
+
+	
+
+
+	
 	
 }

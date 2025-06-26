@@ -17,6 +17,11 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
+	@GetMapping("/dashboard")
+	public String adminDashboard() {
+	    return "admin/dashboard";
+	}
+	
 	@GetMapping("/list")
 	public String listAdmins(Model model) {
 		List<Admin> admins = adminService.getAllAdmins();

@@ -56,25 +56,10 @@ public class Admin {
 	}
 
 
-
-	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Agent> agents;
-
-	public List<Agent> getAgents() {
-		return agents;
-	}
-
-	public void setAgents(List<Agent> agents) {
-		this.agents = agents;
-	}
-
-
 	@Override
 	public String toString() {
-		return "Admin [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", agents="
-				+ agents + "]";
+		return "Admin [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
-	
 	
 	
 }

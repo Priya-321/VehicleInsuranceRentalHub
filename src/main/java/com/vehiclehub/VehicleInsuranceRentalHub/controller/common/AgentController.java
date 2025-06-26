@@ -16,6 +16,12 @@ public class AgentController {
     @Autowired
     private AgentService agentService;
 
+    @GetMapping("/dashboard")
+    public String agentDashboard() {
+        return "agent/dashboard";
+    }
+
+    
     @GetMapping("/list")
     public String listAgents(@RequestParam(name = "role", required = false) String role, Model model) {
         List<Agent> agents;
