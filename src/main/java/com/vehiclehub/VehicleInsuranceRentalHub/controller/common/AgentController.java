@@ -16,10 +16,6 @@ public class AgentController {
     @Autowired
     private AgentService agentService;
 
-    @GetMapping("/dashboard")
-    public String agentDashboard() {
-        return "agent/dashboard";
-    }
 
     
     @GetMapping("/list")
