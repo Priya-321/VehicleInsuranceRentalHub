@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>File a Claim</title></head>
+<body>
+    <h2>File Insurance Claim</h2>
+
+    <form th:action="@{/claim/save}" th:object="${claim}" method="post">
+        Date: <input type="date" th:field="*{claimDate}" /><br/>
+        Description: <textarea th:field="*{description}"></textarea><br/>
+        Status:
+        <select th:field="*{status}">
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+        </select><br/>
+
+        Policy:
+        <select name="policy">
+            <option th:each="p : ${policies}" th:value="${p.id}" th:text="'Policy #' + ${p.id}"></option>
+        </select><br/>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

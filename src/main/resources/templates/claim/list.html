@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Claims</title></head>
+<body>
+    <h2>Insurance Claims</h2>
+
+    <a href="/claim/form">File New Claim</a><br/><br/>
+
+    <table border="1">
+        <tr>
+            <th>ID</th><th>Policy</th><th>Date</th><th>Description</th><th>Status</th><th>Action</th>
+        </tr>
+        <tr th:each="c : ${claims}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.policy.id}"></td>
+            <td th:text="${c.claimDate}"></td>
+            <td th:text="${c.description}"></td>
+            <td th:text="${c.status}"></td>
+            <td><a th:href="@{/claim/delete/{id}(id=${c.id})}">Delete</a></td>
+        </tr>
+    </table>
+</body>
+</html>

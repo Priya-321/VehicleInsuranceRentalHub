@@ -15,7 +15,7 @@ public class CompanyVehicleController {
 
     @Autowired
     private CompanyVehicleService vehicleService;
-
+ 
     @GetMapping("/list")
     public String listVehicles(@RequestParam(name = "status", required = false) String status, Model model) {
         List<CompanyVehicle> vehicles;
