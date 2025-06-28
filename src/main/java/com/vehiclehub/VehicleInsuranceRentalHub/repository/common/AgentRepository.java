@@ -12,6 +12,6 @@ public interface AgentRepository extends JpaRepository <Agent, Integer> {
 	//Spring Data JPA will auto-generate the query based on method name.
 	// Select * from agent where role = ?;
 	
-	Agent findByEmail(String email);
+	Optional<Agent> findByEmail(String email);
 
 }

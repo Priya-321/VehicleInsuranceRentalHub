@@ -4,6 +4,7 @@ import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Admin;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.common.AdminRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,19 @@ public class AdminServiceImpl implements AdminService {
     @Autowired //used for dependency injection
     private AdminRepository adminRepository;
     //creates object of AdminRepository -> injects AdminRepository so this class can access the database
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     
     @Override //overriding method defined in parent class
     public Admin saveAdmin(Admin admin) {
+        // hash password only if it's plain text
+        if (admin.getPassword() != null && !admin.getPassword().startsWith("$2a$")) {
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        }
         return adminRepository.save(admin);
     }
+
 
     @Override
     public List<Admin> getAllAdmins() {

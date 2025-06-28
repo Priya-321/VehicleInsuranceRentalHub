@@ -4,6 +4,7 @@ import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.common.AgentRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +16,14 @@ public class AgentServiceImpl implements AgentService {
     @Autowired
     private AgentRepository agentRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    
     @Override
     public Agent saveAgent(Agent agent) {
+    	    if (agent.getPassword() != null && !agent.getPassword().startsWith("$2a$")) {
+            agent.setPassword(passwordEncoder.encode(agent.getPassword()));
+            }
         return agentRepository.save(agent);
     }
 
