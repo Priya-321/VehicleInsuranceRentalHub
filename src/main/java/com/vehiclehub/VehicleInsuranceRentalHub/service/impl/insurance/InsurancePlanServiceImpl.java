@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.insurance;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.InsurancePlan;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.insurance.InsurancePlanRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.InsurancePlanService;
@@ -27,8 +28,8 @@ public class InsurancePlanServiceImpl implements InsurancePlanService {
 
     @Override
     public InsurancePlan getPlanById(int id) {
-        Optional<InsurancePlan> optional = planRepository.findById(id);
-        return optional.orElse(null);
+    	        return planRepository.findById(id)
+    	             .orElseThrow(() -> new ResourceNotFoundException("Plan not found with id: " + id));
     }
 
     @Override

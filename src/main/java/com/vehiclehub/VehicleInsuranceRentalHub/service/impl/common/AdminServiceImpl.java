@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.common;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Admin;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.common.AdminRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AdminService;
@@ -37,8 +38,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin getAdminById(int id) {
-        Optional<Admin> optional = adminRepository.findById(id); //optional class for handling null values
-        return optional.orElse(null); // here we can also throw custom exception if preferred
+        //Optional<Admin> optional = adminRepository.findById(id); //optional class for handling null values
+        //return optional.orElse(null); // here we can also throw custom exception if preferred
+    	return adminRepository.findById(id)
+    	        .orElseThrow(() -> new ResourceNotFoundException("Admin not found with id: " + id));
     }
 
     @Override

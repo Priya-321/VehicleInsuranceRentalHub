@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.rental;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalBooking;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.rental.RentalBookingRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalBookingService;
@@ -27,8 +28,8 @@ public class RentalBookingServiceImpl implements RentalBookingService {
 
     @Override
     public RentalBooking getBookingById(int id) {
-        Optional<RentalBooking> optional = bookingRepository.findById(id);
-        return optional.orElse(null);
+    	return bookingRepository.findById(id)
+    	        .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
     }
 
     @Override

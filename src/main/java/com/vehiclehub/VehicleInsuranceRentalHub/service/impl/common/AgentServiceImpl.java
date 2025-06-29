@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.common;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.common.AgentRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
@@ -34,8 +35,10 @@ public class AgentServiceImpl implements AgentService {
 
     @Override
     public Agent getAgentById(int id) {
-        Optional<Agent> optional = agentRepository.findById(id);
-        return optional.orElse(null);
+        //Optional<Agent> optional = agentRepository.findById(id)
+        //return optional.orElse(null); -> not ideal as service has to manually check for null
+        	return agentRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Agent not found with id: " + id));
     }
 
     @Override
