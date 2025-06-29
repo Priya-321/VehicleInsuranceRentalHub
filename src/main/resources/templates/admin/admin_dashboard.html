@@ -3,10 +3,32 @@
 <head><title>Admin Dashboard</title></head>
 <body>
     <h2>Welcome, Admin</h2>
+
+    <h3>User Management</h3>
     <ul>
         <li><a href="/admin/list">Manage Admins</a></li>
         <li><a href="/agent/list">Manage Agents</a></li>
-        <li><a href="/logout">Logout</a></li>
     </ul>
+
+    <h3>Rental Services</h3>
+    <ul>
+        <li><a href="/rental-customer/list">Rental Customers</a></li>
+        <li><a href="/company-vehicle/list">Company Vehicles</a></li>
+        <li><a href="/rental-booking/list">Rental Bookings</a></li>
+    </ul>
+
+    <h3>Insurance Services</h3>
+    <ul>
+        <li><a href="/insurance-customer/list">Insurance Customers</a></li>
+        <li><a href="/customer-vehicle/list">Customer Vehicles</a></li>
+        <li><a href="/insurance-plan/list">Insurance Plans</a></li>
+        <li><a href="/policy/list">Policies</a></li>
+        <li><a href="/claim/list">Claims</a></li>
+    </ul>
+
+    <hr/>
+    <form th:action="@{/logout}" method="post">
+        <button>Logout</button>
+    </form>
 </body>
 </html>

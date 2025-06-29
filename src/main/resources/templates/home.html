@@ -1,11 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Vehicle Insurance & Rental Hub</title></head>
+<head>
+    <title>Vehicle Insurance & Rental Hub</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('/images/home_page.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.6); /* dark overlay for text visibility */
+            min-height: 100vh;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .login-link {
+            background: #00b894;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .login-link:hover {
+            background: #019875;
+        }
+    </style>
+</head>
 <body>
-    <h2>Welcome to Vehicle Insurance & Rental Hub</h2>
-    <p>Select your login type:</p>
-    <ul>
-        <li><a href="/login">Login</a></li>
-    </ul>
+    <div class="overlay">
+        <h1>Welcome to Vehicle Insurance & Rental Hub</h1>
+        <div class="description">
+            Your one-stop solution for managing all your vehicle rental and insurance needs.
+        </div>
+
+        <a href="/login" class="login-link">Login</a>
+    </div>
 </body>
 </html>
