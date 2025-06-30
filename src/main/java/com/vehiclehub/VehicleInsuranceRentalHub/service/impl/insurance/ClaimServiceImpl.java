@@ -1,6 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.insurance;
 
-import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Claim;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.insurance.ClaimRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.ClaimService;
@@ -28,9 +28,10 @@ public class ClaimServiceImpl implements ClaimService {
 
     @Override
     public Claim getClaimById(int id) {
-    	        return claimRepository.findById(id)
-    	              .orElseThrow(() -> new ResourceNotFoundException("Claim History not found with id: " + id));
+        return claimRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Claim with ID " + id + " not found."));
     }
+
 
     @Override
     public void deleteClaim(int id) {
@@ -46,4 +47,6 @@ public class ClaimServiceImpl implements ClaimService {
     public List<Claim> getClaimsByStatus(String status) {
         return claimRepository.findByStatus(status);
     }
+    
+    
 }

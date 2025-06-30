@@ -4,6 +4,19 @@
 <body>
     <h2>All Agents</h2>
 
+
+	<!-- Search Form -->
+	<form th:action="@{/admin/search}" method="get" style="margin-bottom: 1rem;">
+	    <input type="text" name="query" placeholder="Search by ID or name" />
+	    <button type="submit">Search</button>
+	</form>
+
+	<!-- Error Message -->
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
+
     <a href="/agent/form">Add New Agent</a>
 
     <form method="get" th:action="@{/agent/list}">
@@ -26,7 +39,9 @@
             <td th:text="${a.email}"></td>
             <td th:text="${a.phone}"></td>
             <td th:text="${a.role}"></td>
-            <td><a th:href="@{/agent/delete/{id}(id=${a.id})}">Delete</a></td>
+            <td>
+				    <a th:href="@{/agent/delete/{id}(id=${a.id})}">Delete</a>
+			</td>
         </tr>
     </table>
 </body>

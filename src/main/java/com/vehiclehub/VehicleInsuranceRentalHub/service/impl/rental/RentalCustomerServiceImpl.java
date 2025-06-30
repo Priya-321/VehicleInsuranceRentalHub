@@ -1,6 +1,7 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.rental;
 
-import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
+
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalCustomer;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.rental.RentalCustomerRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalCustomerService;
@@ -28,11 +29,10 @@ public class RentalCustomerServiceImpl implements RentalCustomerService {
 
     @Override
     public RentalCustomer getCustomerById(int id) {
-        //Optional<RentalCustomer> optional = rentalCustomerRepository.findById(id);
-        //return optional.orElse(null);
-      	return rentalCustomerRepository.findById(id)
-    	        .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
+        return rentalCustomerRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Rental customer with ID " + id + " not found."));
     }
+
 
     @Override
     public void deleteCustomer(int id) {
@@ -43,4 +43,10 @@ public class RentalCustomerServiceImpl implements RentalCustomerService {
     public List<RentalCustomer> getCustomersByAgentId(int agentId) {
         return rentalCustomerRepository.findByAgentId(agentId);
     }
+    
+    @Override
+    public List<RentalCustomer> searchByName(String name) {
+        return rentalCustomerRepository.findByNameContainingIgnoreCase(name);
+    }
+
 }

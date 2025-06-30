@@ -11,6 +11,7 @@ public interface PolicyService {
     Policy getPolicyById(int id);
     void deletePolicy(int id);
 
+    List<Policy> searchByCustomerName(String name);
     List<Policy> getPoliciesByVehicleId(int vehicleId);
     List<Policy> getPoliciesByPlanId(int planId);
     List<Policy> getPoliciesByStatus(String status);

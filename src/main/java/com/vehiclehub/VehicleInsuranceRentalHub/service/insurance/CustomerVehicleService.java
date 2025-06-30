@@ -13,4 +13,5 @@ public interface CustomerVehicleService {
 
     List<CustomerVehicle> getVehiclesByCustomerId(int customerId);
     CustomerVehicle getVehicleByRegistrationNumber(String regNo);
+    List<CustomerVehicle> searchByName(String name);
 }

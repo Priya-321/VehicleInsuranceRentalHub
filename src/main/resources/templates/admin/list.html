@@ -3,6 +3,19 @@
 <head><title>Admin List</title></head>
 <body>
     <h2>All Admins</h2>
+	<!-- Search Form -->
+	<form th:action="@{/admin/search}" method="get" style="margin-bottom: 1rem;">
+	    <input type="text" name="query" placeholder="Search by ID or name" />
+	    <button type="submit">Search</button>
+	</form>
+
+	<!-- Error Message -->
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
+
+
     <a href="/admin/form">Add New Admin</a>
     <table border="1">
         <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>
@@ -10,7 +23,9 @@
             <td th:text="${a.id}"></td>
             <td th:text="${a.name}"></td>
             <td th:text="${a.email}"></td>
-            <td><a th:href="@{/admin/delete/{id}(id=${a.id})}">Delete</a></td>
+            <td>
+				<a th:href="@{/admin/delete/{id}(id=${a.id})}">Delete</a>
+			</td>
         </tr>
     </table>
 </body>

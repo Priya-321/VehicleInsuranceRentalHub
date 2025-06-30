@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.insurance;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.InsurancePlan;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.InsurancePlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class InsurancePlanController {
         model.addAttribute("plans", plans);
         return "insurance_plan/list";
     }
-
+    
     @GetMapping("/form")
     public String showPlanForm(Model model) {
         model.addAttribute("plan", new InsurancePlan());

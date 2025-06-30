@@ -12,4 +12,6 @@ public interface RentalCustomerRepository extends JpaRepository<RentalCustomer,I
 	List<RentalCustomer> findByAgentId(int agentId);
 	//select * from RentalCustomer where AgentId = ?;
 
+	List<RentalCustomer> findByNameContainingIgnoreCase(String name);
+
 }

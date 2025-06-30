@@ -1,6 +1,7 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.rental;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalCustomer;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalCustomerService;
@@ -38,6 +39,34 @@ public class RentalCustomerController {
         model.addAttribute("customers", customers);
         return "rental_customer/list";
     }
+    
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<RentalCustomer> rentalCustomers;
+
+        if (query.matches("\\d+")) { // ID Search
+            try {
+                RentalCustomer customer = rentalCustomerService.getCustomerById(Integer.parseInt(query));
+                rentalCustomers = List.of(customer);
+            } catch (NotFoundException e) {
+                rentalCustomers = rentalCustomerService.getAllCustomers(); // fallback list
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        } else { // Name Search
+            rentalCustomers = rentalCustomerService.searchByName(query);
+
+            if (rentalCustomers.isEmpty()) {
+                rentalCustomers = rentalCustomerService.getAllCustomers(); // fallback list
+                model.addAttribute("errorMessage", "No rental customers found for name: " + query);
+            }
+        }
+
+        model.addAttribute("rentalCustomers", rentalCustomers);
+        return "rentalCustomer/list";
+    }
+
+
+
 
     @GetMapping("/form")
     public String showCustomerForm(Model model) {

@@ -1,6 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.insurance;
 
-import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Policy;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.insurance.PolicyRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.PolicyService;
@@ -28,9 +28,10 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public Policy getPolicyById(int id) {
-    	        return policyRepository.findById(id)
-    	               .orElseThrow(() -> new ResourceNotFoundException("Policy not found with id: " + id));
+        return policyRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Policy with ID " + id + " not found."));
     }
+
 
     @Override
     public void deletePolicy(int id) {
@@ -50,5 +51,10 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public List<Policy> getPoliciesByStatus(String status) {
         return policyRepository.findByStatus(status);
+    }
+    
+    @Override
+    public List<Policy> searchByCustomerName(String name) {
+        return policyRepository.findByCustomerNameContainingIgnoreCase(name);
     }
 }

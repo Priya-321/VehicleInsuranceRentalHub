@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.insurance;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Claim;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Policy;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.ClaimService;
@@ -28,6 +29,41 @@ public class ClaimController {
         return "claim/list";
     }
 
+    @GetMapping("/search")
+    public String searchClaims(@RequestParam("query") String query,
+                               @RequestParam(value = "status", required = false) String status,
+                               Model model) {
+        List<Claim> claims = List.of();
+
+        boolean found = false;
+
+        if (query != null && query.matches("\\d+")) {
+            try {
+                claims = claimService.getClaimsByPolicyId(Integer.parseInt(query));
+                found = !claims.isEmpty();
+            } catch (Exception e) {
+                model.addAttribute("errorMessage", "Invalid policy ID: " + query);
+            }
+        }
+
+        if (!found && status != null && !status.isEmpty()) {
+            claims = claimService.getClaimsByStatus(status);
+            found = !claims.isEmpty();
+        }
+
+        if (!found) {
+            claims = claimService.getAllClaims(); // fallback
+            if (status != null || query != null) {
+                model.addAttribute("errorMessage", "No claims found for given search or filter.");
+            }
+        }
+
+        model.addAttribute("claims", claims);
+        return "claim/list";
+    }
+
+
+    
     @GetMapping("/form")
     public String showClaimForm(Model model) {
         model.addAttribute("claim", new Claim());

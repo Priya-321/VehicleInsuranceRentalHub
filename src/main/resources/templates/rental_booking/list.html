@@ -4,6 +4,19 @@
 <body>
     <h2>Rental Booking History</h2>
 
+	<!-- Search Form -->
+	<form th:action="@{/rentalBooking/search}" method="get" style="margin-bottom: 1rem;">
+	    <input type="text" name="query" placeholder="Search by ID or customer name" />
+	    <button type="submit">Search</button>
+	</form>
+
+	<!-- Error Message -->
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
+
+
     <a href="/rental-booking/form">New Booking</a><br/><br/>
 
     <table border="1">

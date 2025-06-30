@@ -1,6 +1,8 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.common;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Admin;
+import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
+
 import java.util.List;
 
 public interface AdminService {
@@ -11,4 +13,5 @@ public interface AdminService {
     List<Admin> getAllAdmins();//fetch all records
     Admin getAdminById(int id);//get a specific admin by id
     void deleteAdmin(int id);// remove an admin by id
+    List<Admin> searchByName(String name);
 }

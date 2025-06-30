@@ -2,6 +2,7 @@ package com.vehiclehub.VehicleInsuranceRentalHub.controller.rental;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalBooking;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalCustomer;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.CompanyVehicle;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalBookingService;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalCustomerService;
@@ -33,6 +34,33 @@ public class RentalBookingController {
         return "rental_booking/list";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<RentalBooking> bookings;
+
+        if (query.matches("\\d+")) { // ID Search
+            try {
+                RentalBooking booking = bookingService.getBookingById(Integer.parseInt(query));
+                bookings = List.of(booking);
+            } catch (NotFoundException e) {
+                bookings = bookingService.getAllBookings(); // fallback list
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        } else { // Name Search
+            bookings = bookingService.searchByCustomerName(query);
+
+            if (bookings.isEmpty()) {
+                bookings = bookingService.getAllBookings(); // fallback list
+                model.addAttribute("errorMessage", "No bookings found for customer name: " + query);
+            }
+        }
+
+        model.addAttribute("bookings", bookings);
+        return "rentalBooking/list";
+    }
+
+
+    
     @GetMapping("/form")
     public String showBookingForm(Model model) {
         model.addAttribute("booking", new RentalBooking());

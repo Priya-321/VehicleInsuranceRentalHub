@@ -7,17 +7,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handle 404-style errors
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public String handleResourceNotFound(ResourceNotFoundException ex, Model model) {
+    @ExceptionHandler(NotFoundException.class)
+    public String handleResourceNotFound(NotFoundException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error";
-    }
-
-    // Handle any unhandled exceptions (500 error)
-    @ExceptionHandler(Exception.class)
-    public String handleGenericException(Exception ex, Model model) {
-        model.addAttribute("errorMessage", "Something went wrong. Please try again.");
-        return "error";
+        // Decide a default fallback view (can be overridden if needed)
+        return "error/inline-error";
     }
 }

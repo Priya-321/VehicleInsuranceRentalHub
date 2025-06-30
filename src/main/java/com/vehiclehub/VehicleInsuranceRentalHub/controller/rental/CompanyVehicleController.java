@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.rental;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.CompanyVehicle;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.CompanyVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,35 @@ public class CompanyVehicleController {
         model.addAttribute("vehicles", vehicles);
         return "company_vehicle/list";
     }
+    
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<CompanyVehicle> vehicles;
 
+        if (query.matches("\\d+")) { // ID Search
+            try {
+                CompanyVehicle vehicle = vehicleService.getVehicleById(Integer.parseInt(query));
+                vehicles = List.of(vehicle);
+            } catch (NotFoundException e) {
+                vehicles = vehicleService.getAllVehicles(); // fallback list
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        } else { // model Search
+            vehicles = vehicleService.searchByModel(query);
+
+            if (vehicles.isEmpty()) {
+                vehicles =vehicleService.getAllVehicles(); // fallback list
+                model.addAttribute("errorMessage", "No vehicles found for model: " + query);
+            }
+        }
+
+        model.addAttribute("vehicles", vehicles);
+        return "companyVehicle/list";
+    }
+
+
+
+    
     @GetMapping("/form")
     public String showVehicleForm(Model model) {
         model.addAttribute("vehicle", new CompanyVehicle());

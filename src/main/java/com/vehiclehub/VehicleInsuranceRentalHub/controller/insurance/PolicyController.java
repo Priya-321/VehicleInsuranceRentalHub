@@ -1,6 +1,7 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.insurance;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Policy;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.CustomerVehicle;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.InsurancePlan;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.PolicyService;
@@ -32,7 +33,35 @@ public class PolicyController {
         model.addAttribute("policies", policies);
         return "policy/list";
     }
+    
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<Policy> policies;
 
+        if (query.matches("\\d+")) { // ID Search
+            try {
+                Policy policy = policyService.getPolicyById(Integer.parseInt(query));
+                policies = List.of(policy);
+            } catch (NotFoundException e) {
+                policies = policyService.getAllPolicies(); // fallback list
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        } else { // Name Search
+            policies = policyService.searchByCustomerName(query);
+
+            if (policies.isEmpty()) {
+                policies = policyService.getAllPolicies(); // fallback list
+                model.addAttribute("errorMessage", "No policies found for customer name: " + query);
+            }
+        }
+
+        model.addAttribute("policies", policies);
+        return "policy/list";
+    }
+
+
+
+    
     @GetMapping("/form")
     public String showPolicyForm(Model model) {
         model.addAttribute("policy", new Policy());

@@ -13,4 +13,5 @@ public interface RentalCustomerService {
 
     //custom method
     List<RentalCustomer> getCustomersByAgentId(int agentId);
+    List<RentalCustomer> searchByName(String name);
 }

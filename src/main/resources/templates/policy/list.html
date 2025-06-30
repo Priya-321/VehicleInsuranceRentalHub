@@ -4,6 +4,21 @@
 <body>
     <h2>Insurance Policies</h2>
 
+	<form method="get" th:action="@{/policy/search}">
+	    <input type="text" name="query" placeholder="Policy ID or Customer Name" />
+	    Status:
+	    <select name="status">
+	        <option value="">All</option>
+	        <option value="Active">Active</option>
+	        <option value="Expired">Expired</option>
+	    </select>
+	    <button type="submit">Search</button>
+	</form>
+
+	<div th:if="${errorMessage}" style="color:red;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
     <a href="/policy/form">Purchase New Policy</a><br/><br/>
 
     <table border="1">

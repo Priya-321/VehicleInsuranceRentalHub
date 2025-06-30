@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.common;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,35 @@ public class AgentController {
         model.addAttribute("agents", agents);
         return "agent/list";
     }
+    
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<Agent> agents;
+
+        if (query.matches("\\d+")) { // ID Search
+            try {
+                Agent agent = agentService.getAgentById(Integer.parseInt(query));
+                agents = List.of(agent);
+            } catch (NotFoundException e) {
+                agents = agentService.getAllAgents(); // fallback list
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        } else { // Name Search
+            agents = agentService.searchByName(query);
+
+            if (agents.isEmpty()) {
+                agents = agentService.getAllAgents(); // fallback list
+                model.addAttribute("errorMessage", "No agents found for name: " + query);
+            }
+        }
+
+        model.addAttribute("agents", agents);
+        return "agent/list";
+    }
 
 
+    
+    
     @GetMapping("/form")
     public String showAgentForm(Model model) {
         model.addAttribute("agent", new Agent());

@@ -4,6 +4,18 @@
 <body>
     <h2>Insured Customer Vehicles</h2>
 
+	<!-- Search Form -->
+	<form th:action="@{/customerVehicle/search}" method="get" style="margin-bottom: 1rem;">
+	    <input type="text" name="query" placeholder="Search by ID or customer name" />
+	    <button type="submit">Search</button>
+	</form>
+
+	<!-- Error Message -->
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
+
     <a href="/customer-vehicle/form">Add New Vehicle</a>
     <br/><br/>
 

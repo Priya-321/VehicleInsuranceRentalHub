@@ -13,4 +13,5 @@ public interface ClaimService {
 
     List<Claim> getClaimsByPolicyId(int policyId);
     List<Claim> getClaimsByStatus(String status);
+   
 }

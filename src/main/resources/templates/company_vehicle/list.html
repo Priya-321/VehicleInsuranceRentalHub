@@ -3,6 +3,19 @@
 <head><title>Company Vehicles</title></head>
 <body>
     <h2>Company Vehicles</h2>
+ 
+
+	<!-- Search Form -->
+	<form th:action="@{/companyVehicle/search}" method="get" style="margin-bottom: 1rem;">
+	    <input type="text" name="query" placeholder="Search by ID or name" />
+	    <button type="submit">Search</button>
+	</form>
+
+	<!-- Error Message -->
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
 
     <a href="/company-vehicle/form">Add New Vehicle</a>
 

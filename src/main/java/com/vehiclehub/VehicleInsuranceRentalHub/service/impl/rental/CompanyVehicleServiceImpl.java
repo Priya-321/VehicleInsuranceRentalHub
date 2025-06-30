@@ -1,6 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.rental;
 
-import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.CompanyVehicle;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.rental.CompanyVehicleRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.CompanyVehicleService;
@@ -28,9 +28,10 @@ public class CompanyVehicleServiceImpl implements CompanyVehicleService {
 
     @Override
     public CompanyVehicle getVehicleById(int id) {
-    	        return vehicleRepository.findById(id)
-    	              .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found with id: " + id));
+        return vehicleRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Company vehicle with ID " + id + " not found."));
     }
+
 
     @Override
     public void deleteVehicle(int id) {
@@ -41,4 +42,10 @@ public class CompanyVehicleServiceImpl implements CompanyVehicleService {
     public List<CompanyVehicle> getVehiclesByStatus(String status) {
         return vehicleRepository.findByStatus(status);
     }
+    
+    @Override
+    public List<CompanyVehicle> searchByModel(String model) {
+        return vehicleRepository.findByModelContainingIgnoreCase(model);
+    }
+
 }

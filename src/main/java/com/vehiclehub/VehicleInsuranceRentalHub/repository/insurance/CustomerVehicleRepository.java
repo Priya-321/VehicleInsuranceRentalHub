@@ -12,4 +12,6 @@ public interface CustomerVehicleRepository extends JpaRepository<CustomerVehicle
 	List<CustomerVehicle> findByCustomerId(int customerId);
 	CustomerVehicle findByRegistrationNumber(String registrationNumber);
 
+	List<CustomerVehicle> findByCustomerNameContainingIgnoreCase(String name);
+
 }

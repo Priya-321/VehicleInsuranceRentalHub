@@ -11,4 +11,5 @@ public interface InsuranceCustomerRepository extends JpaRepository<InsuranceCust
 	
 	List<InsuranceCustomer> findByAgentId(int agentId);
 
+	List<InsuranceCustomer> findByNameContainingIgnoreCase(String name);
 }

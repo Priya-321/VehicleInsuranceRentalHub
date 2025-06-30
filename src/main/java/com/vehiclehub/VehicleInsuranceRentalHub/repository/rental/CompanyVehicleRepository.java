@@ -9,5 +9,6 @@ public interface CompanyVehicleRepository extends JpaRepository<CompanyVehicle, 
 //This repository helps manage vehicles owned by the company.
 	
 	List<CompanyVehicle> findByStatus(String status);
-    
+	List<CompanyVehicle> findByModelContainingIgnoreCase(String model);
+
 }

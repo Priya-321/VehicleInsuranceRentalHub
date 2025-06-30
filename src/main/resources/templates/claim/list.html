@@ -3,6 +3,24 @@
 <head><title>Claims</title></head>
 <body>
     <h2>Insurance Claims</h2>
+ 
+	<!-- Search + Filter Form -->
+	<form th:action="@{/claim/search}" method="get" style="margin-bottom: 1rem; display: flex; gap: 1rem;">
+	    <input type="text" name="query" placeholder="Search by Policy ID" />
+	    <select name="status">
+	        <option value="">Filter by Status</option>
+	        <option value="Pending">Pending</option>
+	        <option value="Approved">Approved</option>
+	        <option value="Rejected">Rejected</option>
+	    </select>
+	    <button type="submit">Search / Filter</button>
+	</form>
+
+	<!-- Error Message -->
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
 
     <a href="/claim/form">File New Claim</a><br/><br/>
 

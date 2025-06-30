@@ -1,6 +1,7 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.controller.insurance;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.InsuranceCustomer;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.InsuranceCustomerService;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
@@ -39,6 +40,32 @@ public class InsuranceCustomerController {
         return "insurance_customer/list";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<InsuranceCustomer> customers;
+
+        if (query.matches("\\d+")) { // ID Search
+            try {
+                InsuranceCustomer customer = insuranceCustomerService.getCustomerById(Integer.parseInt(query));
+                customers = List.of(customer);
+            } catch (NotFoundException e) {
+                customers = insuranceCustomerService.getAllCustomers(); // fallback list
+                model.addAttribute("errorMessage", e.getMessage());
+            }
+        } else { // Name Search
+            customers = insuranceCustomerService.searchByName(query);
+
+            if (customers.isEmpty()) {
+                customers = insuranceCustomerService.getAllCustomers(); // fallback list
+                model.addAttribute("errorMessage", "No insurance customers found for name: " + query);
+            }
+        }
+
+        model.addAttribute("customers", customers);
+        return "insuranceCustomer/list";
+    }
+
+    
     @GetMapping("/form")
     public String showCustomerForm(Model model) {
         model.addAttribute("customer", new InsuranceCustomer());

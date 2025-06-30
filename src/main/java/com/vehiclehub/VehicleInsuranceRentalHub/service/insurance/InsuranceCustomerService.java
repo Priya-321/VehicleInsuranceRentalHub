@@ -12,5 +12,5 @@ public interface InsuranceCustomerService {
     void deleteCustomer(int id);
 
     List<InsuranceCustomer> getCustomersByAgentId(int agentId);
-    
+    List<InsuranceCustomer> searchByName(String name);
 }

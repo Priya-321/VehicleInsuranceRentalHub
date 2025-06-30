@@ -12,4 +12,5 @@ public interface CompanyVehicleService {
     void deleteVehicle(int id);
 
     List<CompanyVehicle> getVehiclesByStatus(String status); // e.g., Available, Booked
+    List<CompanyVehicle> searchByModel(String model);
 }

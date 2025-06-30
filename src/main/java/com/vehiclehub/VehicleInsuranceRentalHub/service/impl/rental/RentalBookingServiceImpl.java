@@ -1,7 +1,8 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.rental;
 
-import com.vehiclehub.VehicleInsuranceRentalHub.exception.ResourceNotFoundException;
+import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalBooking;
+import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalCustomer;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.rental.RentalBookingRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,10 @@ public class RentalBookingServiceImpl implements RentalBookingService {
 
     @Override
     public RentalBooking getBookingById(int id) {
-    	return bookingRepository.findById(id)
-    	        .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
+        return bookingRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Rental booking with ID " + id + " not found."));
     }
+
 
     @Override
     public void deleteBooking(int id) {
@@ -51,4 +53,10 @@ public class RentalBookingServiceImpl implements RentalBookingService {
     public List<RentalBooking> getBookingsByStatus(String status) {
         return bookingRepository.findByStatus(status);
     }
+  
+    @Override
+    public List<RentalBooking> searchByCustomerName(String name) {
+        return bookingRepository.findByCustomerNameContainingIgnoreCase(name);
+    }
+
 }

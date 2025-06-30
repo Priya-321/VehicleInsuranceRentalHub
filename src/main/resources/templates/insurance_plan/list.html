@@ -4,6 +4,10 @@
 <body>
     <h2>Insurance Plans</h2>
 
+	<div th:if="${errorMessage}" style="color:red;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
     <a href="/insurance-plan/form">Add New Plan</a><br/><br/>
 
     <form method="get" th:action="@{/insurance-plan/list}">
