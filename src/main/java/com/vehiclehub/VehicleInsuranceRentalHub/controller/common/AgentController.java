@@ -4,6 +4,7 @@ import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,8 @@ public class AgentController {
         model.addAttribute("agents", agents);
         return "agent/list";
     }
+
+
     
     @GetMapping("/search")
     public String search(@RequestParam("query") String query, Model model) {

@@ -15,7 +15,6 @@
 	</div>
 
 
-
     <a href="/admin/form">Add New Admin</a>
     <table border="1">
         <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>
@@ -24,6 +23,7 @@
             <td th:text="${a.name}"></td>
             <td th:text="${a.email}"></td>
             <td>
+				
 				<a th:href="@{/admin/delete/{id}(id=${a.id})}">Delete</a>
 			</td>
         </tr>

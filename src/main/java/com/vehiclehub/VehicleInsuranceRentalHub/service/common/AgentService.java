@@ -1,7 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.service.common;
 
 import java.util.List;
-
 import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Agent;
 
 public interface AgentService {

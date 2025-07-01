@@ -6,6 +6,7 @@ import com.vehiclehub.VehicleInsuranceRentalHub.model.common.Admin;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.common.AdminRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.common.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
         return adminRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Admin with ID " + id + " not found."));
     }
+
 
     @Override
     public void deleteAdmin(int id) {

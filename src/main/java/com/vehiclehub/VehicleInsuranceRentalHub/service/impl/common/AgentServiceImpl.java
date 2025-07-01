@@ -39,6 +39,7 @@ public class AgentServiceImpl implements AgentService {
     	        .orElseThrow(() -> new NotFoundException("Agent with ID " + id + " not found."));
     }
 
+    
     @Override
     public void deleteAgent(int id) {
         agentRepository.deleteById(id);
