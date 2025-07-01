@@ -54,5 +54,24 @@ public class AgentServiceImpl implements AgentService {
     public List<Agent> searchByName(String name) {
         return agentRepository.findByNameContainingIgnoreCase(name);
     }
+    
+    
+    @Override
+    public void updatePhoneAndPassword(int id, String phone, String hashedPassword) {
+        Agent agent = agentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Agent not found with ID: " + id));
+        agent.setPhone(phone);
+        agent.setPassword(hashedPassword);
+        agentRepository.save(agent);
+    }
+
+    @Override
+    public void updatePhoneOnly(int id, String phone) {
+        Agent agent = agentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Agent not found with ID: " + id));
+        agent.setPhone(phone);
+        agentRepository.save(agent);
+    }
+
 
 }

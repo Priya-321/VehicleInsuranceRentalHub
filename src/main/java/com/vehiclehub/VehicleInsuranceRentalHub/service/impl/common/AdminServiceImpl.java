@@ -56,5 +56,20 @@ public class AdminServiceImpl implements AdminService {
     public List<Admin> searchByName(String name) {
         return adminRepository.findByNameContainingIgnoreCase(name);
     }
+    
+    @Override
+    public void updatePassword(int id, String hashedPassword) {
+        Admin admin = adminRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Admin not found with ID: " + id));
+        admin.setPassword(hashedPassword);
+        adminRepository.save(admin);
+    }
+
+    @Override
+    public Admin findByEmail(String email) {
+        return adminRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Admin not found with email: " + email));
+    }
+
 
 }

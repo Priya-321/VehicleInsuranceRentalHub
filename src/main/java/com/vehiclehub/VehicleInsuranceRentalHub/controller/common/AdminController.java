@@ -76,5 +76,50 @@ public class AdminController {
         adminService.deleteAdmin(id);
         return "redirect:/admin/list";
     }
+    
+    
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    @GetMapping("/edit-password")
+    public String showEditAdminPasswordForm(Model model, Principal principal) {
+        Admin admin = adminService.findByEmail(principal.getName());
+        model.addAttribute("admin", admin);
+        return "admin/edit-password"; // templates/admin/edit-password.html
+    }
+
+    @PostMapping("/update-password")
+    public String updateAdminPassword(@RequestParam("id") int id,
+                                      @RequestParam("newPassword") String newPassword) {
+        String hashedPassword = passwordEncoder.encode(newPassword);
+        adminService.updatePassword(id, hashedPassword);
+        return "redirect:/admin/list";
+    }
+
+    @Autowired
+    private AgentService agentService;
+    
+    @GetMapping("/edit-agent/{id}")
+    public String showEditAgentForm(@PathVariable int id, Model model) {
+        Agent agent = agentService.getAgentById(id);
+        model.addAttribute("agent", agent);
+        return "admin/edit-agent"; // templates/admin/edit-agent.html
+    }
+
+    @PostMapping("/update-agent/{id}")
+    public String updateAgentDetails(@PathVariable int id,
+                                     @RequestParam("phone") String phone,
+                                     @RequestParam(value = "newPassword", required = false) String newPassword) {
+        if (newPassword != null && !newPassword.isBlank()) {
+            String hashedPassword = passwordEncoder.encode(newPassword);
+            agentService.updatePhoneAndPassword(id, phone, hashedPassword);
+        } else {
+            agentService.updatePhoneOnly(id, phone); 
+        }
+
+        return "redirect:/agent/list";
+    }
+
+    
 	
 }

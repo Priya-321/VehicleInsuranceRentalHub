@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Agent</title>
+</head>
+<body>
+    <h2>Edit Agent Phone & Password</h2>
+
+    <form th:action="@{'/admin/update-agent/' + ${agent.id}}" method="post">
+        <label>Agent ID:</label>
+        <span th:text="${agent.id}"></span><br/>
+
+        <label>Name:</label>
+        <span th:text="${agent.name}"></span><br/>
+
+        <label>Email:</label>
+        <span th:text="${agent.email}"></span><br/>
+
+        <label>New Phone:</label>
+        <input type="text" name="phone" th:value="${agent.phone}" required /><br/>
+
+		<label>New Password (optional):</label>
+		<input type="password" name="newPassword" />
+
+
+        <button type="submit">Update Agent</button>
+    </form>
+
+    <br/>
+    <a href="/agent/list">Back to Agent List</a>
+</body>
+</html>

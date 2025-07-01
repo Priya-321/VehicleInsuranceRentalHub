@@ -14,4 +14,8 @@ public interface AdminService {
     Admin getAdminById(int id);//get a specific admin by id
     void deleteAdmin(int id);// remove an admin by id
     List<Admin> searchByName(String name);
+    
+    void updatePassword(int id, String hashedPassword);
+    Admin findByEmail(String email);
+
 }

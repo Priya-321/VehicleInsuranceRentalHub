@@ -40,7 +40,8 @@
             <td th:text="${a.phone}"></td>
             <td th:text="${a.role}"></td>
             <td>
-				    <a th:href="@{/agent/delete/{id}(id=${a.id})}">Delete</a>
+				<a th:href="@{/admin/edit-agent/{id}(id=${a.id})}">Edit</a> |
+				<a th:href="@{/agent/delete/{id}(id=${a.id})}">Delete</a>
 			</td>
         </tr>
     </table>

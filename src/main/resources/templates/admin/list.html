@@ -23,7 +23,7 @@
             <td th:text="${a.name}"></td>
             <td th:text="${a.email}"></td>
             <td>
-				
+				<a th:href="@{/admin/edit-password}">Change My Password</a> |
 				<a th:href="@{/admin/delete/{id}(id=${a.id})}">Delete</a>
 			</td>
         </tr>

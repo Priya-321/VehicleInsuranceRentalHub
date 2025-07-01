@@ -24,7 +24,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-            		.requestMatchers("/login", "/css/**", "/js/**").permitAll()
+            		.requestMatchers("/login", "/css/**", "/js/**","/images/**").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("ADMIN")
                 .requestMatchers("/agent/**").hasAnyAuthority("ADMIN","RENTAL", "INSURANCE")
                 .anyRequest().permitAll()
@@ -35,8 +35,10 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/dashboard", true)
                 .permitAll()
             )
-            .logout(logout -> logout.permitAll());
-            	
+            .logout(logout -> logout
+                    .logoutSuccessUrl("/login?logout=true")
+                    .permitAll()
+                );
         return http.build();
     }
 

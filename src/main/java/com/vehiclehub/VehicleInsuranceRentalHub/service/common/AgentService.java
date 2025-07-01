@@ -11,5 +11,9 @@ public interface AgentService {
 	void deleteAgent(int id);
 	List<Agent> getAgentsByRole(String role); //fetch agents info on the basis of role
 	List<Agent> searchByName(String name);
+	
+	void updatePhoneAndPassword(int id, String phone, String hashedPassword);
+	void updatePhoneOnly(int id, String phone);
+
 
 }

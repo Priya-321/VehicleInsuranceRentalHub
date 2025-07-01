@@ -1,34 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Admin Dashboard</title></head>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}" />
+</head>
 <body>
-    <h2>Welcome, Admin</h2>
+    <div class="dashboard-container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <form th:action="@{/logout}" method="post">
+                <button class="logout-btn">Logout</button>
+            </form>
+        </header>
 
-    <h3>User Management</h3>
-    <ul>
-        <li><a href="/admin/list">Manage Admins</a></li>
-        <li><a href="/agent/list">Manage Agents</a></li>
-    </ul>
+        <section class="dashboard-section">
+            <h2>User Management</h2>
+            <div class="card-container">
+                <a href="/admin/list" class="card">Manage Admins</a>
+                <a href="/agent/list" class="card">Manage Agents</a>
+            </div>
+        </section>
 
-    <h3>Rental Services</h3>
-    <ul>
-        <li><a href="/rental-customer/list">Rental Customers</a></li>
-        <li><a href="/company-vehicle/list">Company Vehicles</a></li>
-        <li><a href="/rental-booking/list">Rental Bookings</a></li>
-    </ul>
+        <section class="dashboard-section">
+            <h2>Rental Services</h2>
+            <div class="card-container">
+                <a href="/rental-customer/list" class="card">Rental Customers</a>
+                <a href="/company-vehicle/list" class="card">Company Vehicles</a>
+                <a href="/rental-booking/list" class="card">Rental Bookings</a>
+            </div>
+        </section>
 
-    <h3>Insurance Services</h3>
-    <ul>
-        <li><a href="/insurance-customer/list">Insurance Customers</a></li>
-        <li><a href="/customer-vehicle/list">Customer Vehicles</a></li>
-        <li><a href="/insurance-plan/list">Insurance Plans</a></li>
-        <li><a href="/policy/list">Policies</a></li>
-        <li><a href="/claim/list">Claims</a></li>
-    </ul>
-
-    <hr/>
-    <form th:action="@{/logout}" method="post">
-        <button>Logout</button>
-    </form>
+        <section class="dashboard-section">
+            <h2>Insurance Services</h2>
+            <div class="card-container">
+                <a href="/insurance-customer/list" class="card">Insurance Customers</a>
+                <a href="/customer-vehicle/list" class="card">Customer Vehicles</a>
+                <a href="/insurance-plan/list" class="card">Insurance Plans</a>
+                <a href="/policy/list" class="card">Policies</a>
+                <a href="/claim/list" class="card">Claims</a>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
