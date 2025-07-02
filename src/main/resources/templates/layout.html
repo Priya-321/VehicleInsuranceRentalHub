@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:replace="${title}">Vehicle Hub</title>
+
+    <!-- Common CSS -->
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+
+    <!-- Page-specific CSS -->
+    <th:block th:replace="${styles}"></th:block>
+</head>
+<body>
+
+    <!-- ✅ Fixed Navbar Fragment -->
+    <div th:replace="fragments/navbar :: fixed-navbar"></div>
+
+    <!-- ✅ Main Content Area -->
+    <div class="content" th:fragment="content">
+        <div th:replace="${content}"></div>
+    </div>
+
+    <!-- Optional Footer -->
+    <footer>
+        <p style="text-align: center; color: #aaa;">&copy; 2025 Vehicle Insurance & Rental Hub</p>
+    </footer>
+
+    <!-- Page-specific JS -->
+    <th:block th:replace="${scripts}"></th:block>
+</body>
+</html>

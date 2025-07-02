@@ -56,6 +56,7 @@ public class PolicyController {
         }
 
         model.addAttribute("policies", policies);
+        model.addAttribute("totalCount", policyService.getAllPolicies().size());
         return "policy/list";
     }
 
@@ -63,12 +64,31 @@ public class PolicyController {
 
     
     @GetMapping("/form")
-    public String showPolicyForm(Model model) {
-        model.addAttribute("policy", new Policy());
-        model.addAttribute("vehicles", vehicleService.getAllVehicles());
-        model.addAttribute("plans", planService.getAllPlans());
+    public String showPolicyForm(@RequestParam(required = false) Integer customerId,
+                                 @RequestParam(required = false) Integer vehicleId,
+                                 @RequestParam(required = false) Integer planId,
+                                 Model model) {
+
+        Policy policy = new Policy();
+
+        if (vehicleId != null) {
+            CustomerVehicle vehicle = vehicleService.getVehicleById(vehicleId);
+            policy.setVehicle(vehicle);
+            model.addAttribute("selectedVehicleId", vehicleId);
+        }
+
+        if (planId != null) {
+            InsurancePlan plan = planService.getPlanById(planId);
+            policy.setPlan(plan);
+            model.addAttribute("selectedPlanId", planId);
+        }
+
+        model.addAttribute("policy", policy);
+        model.addAttribute("vehicles", vehicleService.getAllVehicles()); // fallback option
+        model.addAttribute("plans", planService.getAllPlans());         // fallback option
         return "policy/form";
     }
+
 
     @PostMapping("/save")
     public String savePolicy(@ModelAttribute Policy policy,

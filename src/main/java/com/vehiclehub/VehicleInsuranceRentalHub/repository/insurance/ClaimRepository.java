@@ -1,5 +1,6 @@
 package com.vehiclehub.VehicleInsuranceRentalHub.repository.insurance;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Claim;
+import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Policy;
 
 import java.util.List;
 
@@ -14,7 +15,5 @@ public interface ClaimRepository  extends JpaRepository<Claim, Integer>{
 	List<Claim> findByStatus(String status);
 
 	
-
-
 
 }

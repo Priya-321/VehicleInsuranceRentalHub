@@ -4,6 +4,8 @@
 <body>
     <h2>Rental Customers</h2>
 
+	<a href="/dashboard">Back to Dashboard</a>
+	
 	<!-- Search Form -->
 	<form th:action="@{/rental-customer/search}" method="get" style="margin-bottom: 1rem;">
 	    <input type="text" name="query" placeholder="Search by ID or name" />
@@ -16,8 +18,10 @@
 	    <p th:text="${errorMessage}"></p>
 	</div>
 
-
-
+	<form th:action="@{/rental-customer/list}" method="get" style="display:inline;">
+		    <button type="submit">View All</button>
+	</form>
+		
     <form method="get" th:action="@{/rental-customer/list}">
         Filter by Agent:
         <select name="agentId">

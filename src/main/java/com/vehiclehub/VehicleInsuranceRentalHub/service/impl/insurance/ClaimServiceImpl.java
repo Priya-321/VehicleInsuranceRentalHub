@@ -2,7 +2,9 @@ package com.vehiclehub.VehicleInsuranceRentalHub.service.impl.insurance;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.exception.NotFoundException;
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Claim;
+import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Policy;
 import com.vehiclehub.VehicleInsuranceRentalHub.repository.insurance.ClaimRepository;
+import com.vehiclehub.VehicleInsuranceRentalHub.repository.insurance.PolicyRepository;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.insurance.ClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +50,6 @@ public class ClaimServiceImpl implements ClaimService {
         return claimRepository.findByStatus(status);
     }
     
+
     
 }

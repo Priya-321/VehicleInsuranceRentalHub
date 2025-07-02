@@ -25,23 +25,30 @@ public class InsurancePlanController {
             Model model) {
 
         List<InsurancePlan> plans;
+        String message = null;
 
         if (duration != null) {
             plans = planService.getPlansByDuration(duration);
             model.addAttribute("filterType", "duration");
+            if (plans.isEmpty()) message = "No plans found for the given duration.";
         } else if (maxPremium != null) {
             plans = planService.getPlansBelowPremium(maxPremium);
             model.addAttribute("filterType", "premium");
+            if (plans.isEmpty()) message = "No plans found below the given premium.";
         } else if (keyword != null && !keyword.trim().isEmpty()) {
             plans = planService.searchPlansByName(keyword);
             model.addAttribute("filterType", "keyword");
+            if (plans.isEmpty()) message = "No plans found matching keyword: " + keyword;
         } else {
             plans = planService.getAllPlans();
         }
 
         model.addAttribute("plans", plans);
+        model.addAttribute("errorMessage", message); //Add message to model
+        model.addAttribute("totalCount", planService.getAllPlans().size()); // 👈 for View All
         return "insurance_plan/list";
     }
+
     
     @GetMapping("/form")
     public String showPlanForm(Model model) {
@@ -60,4 +67,16 @@ public class InsurancePlanController {
         planService.deletePlan(id);
         return "redirect:/insurance-plan/list";
     }
+    
+    @GetMapping("/select-plan")
+    public String selectPlan(@RequestParam("customerId") int customerId,
+                             @RequestParam("vehicleId") int vehicleId,
+                             Model model) {
+
+        model.addAttribute("plans", planService.getAllPlans());
+        model.addAttribute("customerId", customerId);
+        model.addAttribute("vehicleId", vehicleId);
+        return "insurance_plan/select-plan";  // this is the new Thymeleaf page
+    }
+
 }

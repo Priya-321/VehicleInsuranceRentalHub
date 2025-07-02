@@ -4,9 +4,13 @@
 <body>
     <h2>Purchase Insurance Policy</h2>
 
+	<a th:href="@{'/insurance-plan/select-plan?customerId=' + ${policy.vehicle.customer.id}}">← Back to Plan Selection</a>
+
+	
     <form th:action="@{/policy/save}" th:object="${policy}" method="post">
-        Start Date: <input type="date" th:field="*{startDate}" /><br/>
-        End Date: <input type="date" th:field="*{endDate}" /><br/>
+        Start Date: <input type="date" th:field="*{startDate}" required/><br/>
+        End Date: <input type="date" th:field="*{endDate}" required/><br/>
+        
         Status:
         <select th:field="*{status}">
             <option value="Active">Active</option>
@@ -14,13 +18,19 @@
         </select><br/>
 
         Vehicle:
-        <select name="vehicle">
-            <option th:each="v : ${vehicles}" th:value="${v.id}" th:text="${v.registrationNumber}"></option>
+        <select name="vehicle" required>
+            <option th:each="v : ${vehicles}" 
+                    th:value="${v.id}" 
+                    th:text="${v.registrationNumber}" 
+                    th:selected="${v.id == selectedVehicleId}"></option>
         </select><br/>
 
         Insurance Plan:
-        <select name="plan">
-            <option th:each="p : ${plans}" th:value="${p.id}" th:text="${p.name}"></option>
+        <select name="plan" required>
+            <option th:each="p : ${plans}" 
+                    th:value="${p.id}" 
+                    th:text="${p.name}" 
+                    th:selected="${p.id == selectedPlanId}"></option>
         </select><br/>
 
         <button type="submit">Purchase</button>

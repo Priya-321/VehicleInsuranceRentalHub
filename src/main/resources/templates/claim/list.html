@@ -4,6 +4,8 @@
 <body>
     <h2>Insurance Claims</h2>
  
+	<a href="/dashboard">Back to Dashboard</a>
+	
 	<!-- Search + Filter Form -->
 	<form th:action="@{/claim/search}" method="get" style="margin-bottom: 1rem; display: flex; gap: 1rem;">
 	    <input type="text" name="query" placeholder="Search by Policy ID" />
@@ -13,13 +15,19 @@
 	        <option value="Approved">Approved</option>
 	        <option value="Rejected">Rejected</option>
 	    </select>
-	    <button type="submit">Search / Filter</button>
+	    <button type="submit">Search</button>
 	</form>
 
 	<!-- Error Message -->
 	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
 	    <p th:text="${errorMessage}"></p>
 	</div>
+	
+	<!-- View All Button -->
+	<form th:action="@{/claim/list}" method="get" style="display:inline;">
+	    <button type="submit">View All</button>
+	</form>
+
 
 
     <a href="/claim/form">File New Claim</a><br/><br/>

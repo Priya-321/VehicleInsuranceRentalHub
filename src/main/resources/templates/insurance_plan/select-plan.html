@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Select Insurance Plan</title></head>
+<body>
+    <h2>Select Insurance Plan</h2>
+
+	<a th:href="@{/customer-vehicle/form(customerId=${customerId})}">← Back to Vehicle</a>
+
+    <table border="1">
+        <tr><th>ID</th><th>Name</th><th>Duration</th><th>Premium</th><th>Action</th></tr>
+        <tr th:each="plan : ${plans}">
+            <td th:text="${plan.id}"></td>
+            <td th:text="${plan.name}"></td>
+            <td th:text="${plan.durationInMonths}"></td>
+            <td th:text="${plan.premium}"></td>
+            <td>
+                <a th:href="@{/policy/form(customerId=${customerId}, vehicleId=${vehicleId}, planId=${plan.id})}">
+                    Buy this Plan
+                </a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

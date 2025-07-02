@@ -4,6 +4,8 @@
 <body>
     <h2>Add Insurance Plan</h2>
 
+	<a href="/dashboard">Back to Dashboard</a>
+
     <form th:action="@{/insurance-plan/save}" th:object="${plan}" method="post">
         Name: <input type="text" th:field="*{name}" /><br/>
         Duration (months): <input type="number" th:field="*{durationInMonths}" /><br/>

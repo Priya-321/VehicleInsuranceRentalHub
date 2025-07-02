@@ -65,11 +65,23 @@ public class ClaimController {
 
     
     @GetMapping("/form")
-    public String showClaimForm(Model model) {
+    public String showClaimForm(@RequestParam(name = "customerName", required = false) String customerName, Model model) {
         model.addAttribute("claim", new Claim());
-        model.addAttribute("policies", policyService.getAllPolicies());
+        model.addAttribute("customerName", customerName);
+
+        if (customerName != null && !customerName.trim().isEmpty()) {
+            List<Policy> policies = policyService.searchByCustomerName(customerName.trim());
+            model.addAttribute("policies", policies);
+
+            if (policies.isEmpty()) {
+                model.addAttribute("errorMessage", "No active policy found for customer: " + customerName);
+            }
+        }
+
         return "claim/form";
     }
+
+
 
     @PostMapping("/save")
     public String saveClaim(@ModelAttribute Claim claim, @RequestParam int policy) {

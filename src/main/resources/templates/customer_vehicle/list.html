@@ -4,11 +4,20 @@
 <body>
     <h2>Insured Customer Vehicles</h2>
 
+	<a href="/dashboard">Back to Dashboard</a>
+	
 	<!-- Search Form -->
-	<form th:action="@{/customerVehicle/search}" method="get" style="margin-bottom: 1rem;">
+	<form th:action="@{/customer-vehicle/search}" method="get" style="margin-bottom: 1rem;">
 	    <input type="text" name="query" placeholder="Search by ID or customer name" />
 	    <button type="submit">Search</button>
 	</form>
+	<!-- View All Button (only shown if error or partial list) -->
+	<div th:if="${errorMessage} or ${#lists.size(vehicles) < totalCount}">
+	    <form th:action="@{/customer-vehicle/list}" method="get">
+	        <button type="submit">View All</button>
+	    </form>
+	</div>
+
 
 	<!-- Error Message -->
 	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
@@ -16,8 +25,6 @@
 	</div>
 
 
-    <a href="/customer-vehicle/form">Add New Vehicle</a>
-    <br/><br/>
 
     <table border="1">
         <tr><th>ID</th><th>Registration No</th><th>Model</th><th>Type</th><th>Owner</th><th>Action</th></tr>

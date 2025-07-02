@@ -4,6 +4,8 @@
 <body>
     <h2>Insurance Policies</h2>
 
+	<a href="/dashboard">Back to Dashboard</a>
+	
 	<form method="get" th:action="@{/policy/search}">
 	    <input type="text" name="query" placeholder="Policy ID or Customer Name" />
 	    Status:
@@ -18,8 +20,14 @@
 	<div th:if="${errorMessage}" style="color:red;">
 	    <p th:text="${errorMessage}"></p>
 	</div>
+	
+	<!-- View All Button -->
+	<div th:if="${errorMessage} or ${#lists.size(policies) < totalCount}">
+	    <form th:action="@{/policy/list}" method="get">
+	        <button type="submit">View All</button>
+	    </form>
+	</div>
 
-    <a href="/policy/form">Purchase New Policy</a><br/><br/>
 
     <table border="1">
         <tr><th>ID</th><th>Vehicle</th><th>Plan</th><th>Status</th><th>Start Date</th><th>End Date</th><th>Action</th></tr>

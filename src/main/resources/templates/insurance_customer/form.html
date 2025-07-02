@@ -4,6 +4,8 @@
 <body>
     <h2>Add Insurance Customer</h2>
 
+	<a href="/dashboard-insurance">Back to Dashboard</a>
+
     <form th:action="@{/insurance-customer/save}" th:object="${customer}" method="post">
         Name: <input type="text" th:field="*{name}" /><br/>
         Email: <input type="email" th:field="*{email}" /><br/>
@@ -17,5 +19,14 @@
 
         <button type="submit">Save</button>
     </form>
+	
+	<h3>Choose Existing Customer</h3>
+	<form method="get" th:action="@{/customer-vehicle/form}">
+	    <label>Select Customer:</label>
+	    <select name="customerId">
+	        <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
+	    </select>
+	    <button type="submit">Continue</button>
+	</form>
 </body>
 </html>

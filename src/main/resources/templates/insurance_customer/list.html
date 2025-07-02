@@ -4,8 +4,10 @@
 <body>
     <h2>Insurance Customers</h2>
 
+	<a href="/dashboard">Back to Dashboard</a>
+	
 	<!-- Search Form -->
-	<form th:action="@{/insuranceCustomer/search}" method="get" style="margin-bottom: 1rem;">
+	<form th:action="@{/insurance-customer/search}" method="get" style="margin-bottom: 1rem;">
 	    <input type="text" name="query" placeholder="Search by ID or name" />
 	    <button type="submit">Search</button>
 	</form>
@@ -14,9 +16,14 @@
 	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
 	    <p th:text="${errorMessage}"></p>
 	</div>
+	
+	<!-- View All Button (only shown if error or filtered list is visible) -->
+	<div th:if="${errorMessage} or ${#lists.size(customers) < totalCount}">
+	    <form th:action="@{/insurance-customer/list}" method="get">
+	        <button type="submit">View All</button>
+	    </form>
+	</div>
 
-
-    <a href="/insurance-customer/form">Add New Customer</a>
 
     <form method="get" th:action="@{/insurance-customer/list}">
         Filter by Agent:

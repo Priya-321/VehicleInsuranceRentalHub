@@ -15,6 +15,10 @@
         <p th:text="${errorMessage}"></p>
     </div>
 
+	<form th:action="@{/rental-booking/list}" method="get" style="display:inline;">
+		    <button type="submit">View All</button>
+	</form>
+		
     <a href="/dashboard">back</a><br/><br/>
 
     <table border="1">

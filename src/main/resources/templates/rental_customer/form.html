@@ -4,7 +4,7 @@
 <body>
     <h2>Add New Rental Customer</h2>
 
-	<a th:href="@{/agent/rental-dashboard}">Back</a>
+	<a th:href="@{/dashboard}">Back</a>
 
     <!-- New Customer Form -->
     <form th:action="@{/rental-customer/save}" th:object="${customer}" method="post">

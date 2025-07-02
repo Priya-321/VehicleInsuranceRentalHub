@@ -2,6 +2,7 @@ package com.vehiclehub.VehicleInsuranceRentalHub.service.insurance;
 
 import com.vehiclehub.VehicleInsuranceRentalHub.model.insurance.Claim;
 
+
 import java.util.List;
 
 public interface ClaimService {
@@ -13,5 +14,7 @@ public interface ClaimService {
 
     List<Claim> getClaimsByPolicyId(int policyId);
     List<Claim> getClaimsByStatus(String status);
+    
+
    
 }

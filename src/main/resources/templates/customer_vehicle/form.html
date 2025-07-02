@@ -1,20 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Customer Vehicle</title></head>
+<head><title>Add or Choose Customer Vehicle</title></head>
 <body>
-    <h2>Add Customer Vehicle</h2>
+    <h2>Add or Choose Customer Vehicle</h2>
+
+	<a th:href="@{/insurance-customer/form}">← Back to Customer</a>
+
+    <div th:if="${customerId}">
+        <h4>Existing Vehicles for Selected Customer:</h4>
+        <ul>
+            <li th:each="v : ${customerVehicles}">
+                <span th:text="${v.registrationNumber} + ' (' + ${v.model} + ')'"></span>
+                <a th:href="@{/insurance-plan/select-plan(customerId=${customerId}, vehicleId=${v.id})}">Choose</a>
+            </li>
+        </ul>
+        <hr/>
+    </div>
 
     <form th:action="@{/customer-vehicle/save}" th:object="${vehicle}" method="post">
-        Registration Number: <input type="text" th:field="*{registrationNumber}" /><br/>
-        Model: <input type="text" th:field="*{model}" /><br/>
-        Type: <input type="text" th:field="*{type}" /><br/>
+        Registration Number: <input type="text" th:field="*{registrationNumber}" required/><br/>
+        Model: <input type="text" th:field="*{model}" required/><br/>
+        Type: <input type="text" th:field="*{type}" required/><br/>
 
-        Customer:
-        <select name="customer">
-            <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
-        </select><br/>
+        <input type="hidden" name="customer" th:value="${customerId}" th:if="${customerId}" />
+        <div th:if="${customerId == null}">
+            Customer:
+            <select name="customer" required>
+                <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
+            </select><br/>
+        </div>
 
-        <button type="submit">Save</button>
+        <button type="submit">Add Vehicle</button>
     </form>
 </body>
 </html>
