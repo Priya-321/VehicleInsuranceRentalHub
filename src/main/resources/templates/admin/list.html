@@ -1,32 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Admin List</title></head>
+<head>
+    <title>Admin List</title>
+    <link rel="stylesheet" th:href="@{/css/admin/admin-list.css}" />
+</head>
 <body>
-    <h2>All Admins</h2>
-	<!-- Search Form -->
-	<form th:action="@{/admin/search}" method="get" style="margin-bottom: 1rem;">
-	    <input type="text" name="query" placeholder="Search by ID or name" />
-	    <button type="submit">Search</button>
-	</form>
+	<div class="popup success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="container">
+        <h2>Admin Records</h2>
 
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
+        <!-- Search Form -->
+        <form th:action="@{/admin/search}" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Search by ID or name" />
+            <button type="submit">Search</button>
+			
+			<a href="/admin/list" class="show-all-btn">Show All</a>
+        </form>
 
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
-    <a href="/admin/form">Add New Admin</a>
-    <table border="1">
-        <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>
-        <tr th:each="a : ${admins}">
-            <td th:text="${a.id}"></td>
-            <td th:text="${a.name}"></td>
-            <td th:text="${a.email}"></td>
-            <td>
-				<a th:href="@{/admin/edit-password}">Change My Password</a> |
-				<a th:href="@{/admin/delete/{id}(id=${a.id})}">Delete</a>
-			</td>
-        </tr>
-    </table>
+        <!-- Add New Admin -->
+        <div class="add-new">
+            <a href="/admin/form" class="add-btn">+ Add New Admin</a>
+        </div>
+
+        <!-- Admin Table -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${admins}">
+                    <td th:text="${a.id}">1</td>
+                    <td th:text="${a.name}">Admin Name</td>
+                    <td th:text="${a.email}">admin@email.com</td>
+                    <td>
+                        <a th:href="@{/admin/edit-password(id=${a.id})}">Change Password</a> |
+                        <a th:href="@{/admin/delete/{id}(id=${a.id})}" class="delete-link">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
+<script>
+	const popup = document.querySelector('.popup');
+	if (popup) {
+	    setTimeout(() => {
+	        popup.style.opacity = '0';                        // Fades out
+	        popup.style.transform = 'translateY(-20px)';      // Slides upward
+	        setTimeout(() => popup.style.display = 'none', 500); // Then hides from layout
+	    }, 3000); // Waits 3 seconds before starting
+	}
+
+</script>
+
 </html>

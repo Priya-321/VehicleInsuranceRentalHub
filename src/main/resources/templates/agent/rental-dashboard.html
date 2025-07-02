@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Rental Agent Dashboard</title></head>
+<head>
+    <title>Rental Agent Dashboard</title>
+</head>
 <body>
     <h2>Welcome, Rental Agent</h2>
+
     <ul>
         <li><a href="/rental-customer/list">Customers</a></li>
         <li><a href="/company-vehicle/list">Company Vehicles</a></li>
         <li><a href="/rental-booking/list">Bookings</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
+
+    <br/>
+
+    <!-- New Booking Button -->
+    <form th:action="@{/rental-customer/form}" method="get">
+        <button type="submit">New Booking</button>
+    </form>
+
 </body>
 </html>

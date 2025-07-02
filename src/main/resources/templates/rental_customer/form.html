@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Rental Customer</title></head>
+<head><title>Add or Select Rental Customer</title></head>
 <body>
-    <h2>Add Rental Customer</h2>
+    <h2>Add New Rental Customer</h2>
 
+	<a th:href="@{/agent/rental-dashboard}">Back</a>
+
+    <!-- New Customer Form -->
     <form th:action="@{/rental-customer/save}" th:object="${customer}" method="post">
         Name: <input type="text" th:field="*{name}" /><br/>
         Email: <input type="email" th:field="*{email}" /><br/>
@@ -12,11 +15,26 @@
 
         Assigned Agent:
         <select th:field="*{agent}">
-              <option th:each="a : ${agents}" th:value="${a.id}" th:text="${a.name}"></option>
-        </select>
-        <br/>
+            <option th:each="a : ${agents}" th:value="${a.id}" th:text="${a.name}"></option>
+        </select><br/>
 
-        <button type="submit">Save</button>
+        <button type="submit">Save & Select Vehicle</button>
     </form>
+
+    <hr/>
+
+    <h2>OR Select Existing Customer</h2>
+
+	<form th:action="@{/company-vehicle/select}" method="get">
+	    <select name="customerId" required>
+	        <option value="">-- Select Customer --</option>
+	        <option th:each="c : ${existingCustomers}" 
+	                th:value="${c.id}" 
+	                th:text="${c.name + ' - ' + c.phone}">
+	        </option>
+	    </select>
+	    <button type="submit">Select & Proceed</button>
+	</form>
+
 </body>
 </html>

@@ -1,0 +1,108 @@
+:root {
+    --primary-color: #3f51b5;
+    --accent-color: #00b894;
+    --dark-text: #2d3436;
+    --light-bg: #f4f6f8;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--light-bg);
+    color: var(--dark-text);
+}
+
+/* Layout */
+.home-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 60px;
+    flex-wrap: wrap;
+    min-height: 80vh;
+}
+
+/* Left Section */
+.left-section {
+    flex: 1;
+    min-width: 300px;
+}
+
+.left-section h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.description {
+    font-size: 1.2rem;
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+
+/* Login Button */
+.login-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.login-button:hover {
+    background-color: #019875;
+    transform: scale(1.05);
+}
+
+/* Right Section */
+.right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+}
+
+.car-image {
+    width: 100%;
+    max-width: 450px;
+    animation: slideIn 1s ease-out;
+}
+
+
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(80px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .home-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .left-section, .right-section {
+        margin-bottom: 30px;
+    }
+
+    .left-section h1 {
+        font-size: 2.2rem;
+    }
+
+    .car-image {
+        max-width: 300px;
+    }
+}

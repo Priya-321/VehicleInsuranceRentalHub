@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>New Rental Booking</title></head>
+<head>
+    <title>New Rental Booking</title>
+</head>
 <body>
-    <h2>Create New Booking</h2>
+<h2>Create New Booking</h2>
 
-    <form th:action="@{/rental-booking/save}" th:object="${booking}" method="post">
-        Booking Date: <input type="date" th:field="*{bookingDate}" /><br/>
-        Return Date: <input type="date" th:field="*{returnDate}" /><br/>
-        Late Charges: <input type="number" step="0.01" th:field="*{lateCharges}" /><br/>
-        Status:
-        <select th:field="*{status}">
-            <option value="Booked">Booked</option>
-            <option value="Returned">Returned</option>
-        </select><br/>
+<form th:action="@{/rental-booking/save}" th:object="${booking}" method="post">
+    <input type="hidden" th:field="*{customer.id}" />
+    <input type="hidden" th:field="*{vehicle.id}" />
 
-        Customer:
-        <select name="customer">
-            <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
-        </select><br/>
+    <p th:if="${#fields.hasErrors('bookingDate')}" style="color:red" th:errors="*{bookingDate}"></p>
+    Booking Date: <input type="date" th:field="*{bookingDate}" /><br/>
 
-        Vehicle:
-        <select name="vehicle">
-            <option th:each="v : ${vehicles}" th:value="${v.id}" th:text="${v.model} + ' [' + ${v.numberPlate} + ']'"></option>
-        </select><br/>
+    <p th:if="${#fields.hasErrors('returnDate')}" style="color:red" th:errors="*{returnDate}"></p>
+    Return Date: <input type="date" th:field="*{returnDate}" /><br/>
 
-        <button type="submit">Save Booking</button>
-    </form>
+    <p th:if="${#fields.hasErrors('status')}" style="color:red" th:errors="*{status}"></p>
+    Status:
+    <select th:field="*{status}">
+        <option value="Booked">Booked</option>
+    </select><br/>
+
+    <button type="submit">Confirm Booking</button>
+</form>
+
+
 </body>
 </html>

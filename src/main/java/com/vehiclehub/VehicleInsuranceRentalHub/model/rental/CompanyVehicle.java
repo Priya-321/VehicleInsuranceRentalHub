@@ -13,10 +13,14 @@ public class CompanyVehicle {
     private String model;
     private String numberPlate;
     private String type;
+    private Double price;
     private String status; // Available, Booked, etc.
 
     
-    public int getId() {
+    
+
+
+	public int getId() {
 		return id;
 	}
 
@@ -56,6 +60,15 @@ public class CompanyVehicle {
 	}
 
 
+	public Double getPrice() {
+		return price;
+	}
+
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	
 	public String getStatus() {
 		return status;
 	}
@@ -83,8 +96,11 @@ public class CompanyVehicle {
 	@Override
 	public String toString() {
 		return "CompanyVehicle [id=" + id + ", model=" + model + ", numberPlate=" + numberPlate + ", type=" + type
-				+ ", status=" + status + ", bookings=" + bookings + "]";
+				+ ", price=" + price + ", status=" + status + ", bookings=" + bookings + "]";
 	}
+
+
+	
 	
 	
 }

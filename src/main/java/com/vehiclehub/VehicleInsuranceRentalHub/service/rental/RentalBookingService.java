@@ -10,6 +10,8 @@ public interface RentalBookingService {
     List<RentalBooking> getAllBookings();
     RentalBooking getBookingById(int id);
     void deleteBooking(int id);
+    RentalBooking processReturn(int bookingId);
+
 
     List<RentalBooking> searchByCustomerName(String name);
     List<RentalBooking> getBookingsByCustomerId(int customerId);

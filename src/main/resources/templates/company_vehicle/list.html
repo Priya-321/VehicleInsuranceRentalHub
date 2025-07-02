@@ -6,11 +6,12 @@
  
 
 	<!-- Search Form -->
-	<form th:action="@{/companyVehicle/search}" method="get" style="margin-bottom: 1rem;">
+	<form th:action="@{/company-vehicle/search}" method="get" style="margin-bottom: 1rem;">
 	    <input type="text" name="query" placeholder="Search by ID or name" />
 	    <button type="submit">Search</button>
 	</form>
 
+	<a th:href="@{/dashboard}">Back</a>
 	<!-- Error Message -->
 	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
 	    <p th:text="${errorMessage}"></p>
@@ -32,12 +33,13 @@
     <br/>
 
     <table border="1">
-        <tr><th>ID</th><th>Model</th><th>Plate</th><th>Type</th><th>Status</th><th>Action</th></tr>
+        <tr><th>ID</th><th>Model</th><th>Plate</th><th>Type</th><th>Price</th><th>Status</th><th>Action</th></tr>
         <tr th:each="v : ${vehicles}">
             <td th:text="${v.id}"></td>
             <td th:text="${v.model}"></td>
             <td th:text="${v.numberPlate}"></td>
             <td th:text="${v.type}"></td>
+			<td th:text="${v.price}"></td>
             <td th:text="${v.status}"></td>
             <td><a th:href="@{/company-vehicle/delete/{id}(id=${v.id})}">Delete</a></td>
         </tr>

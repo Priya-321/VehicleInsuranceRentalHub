@@ -16,7 +16,7 @@ public class CompanyVehicleController {
 
     @Autowired
     private CompanyVehicleService vehicleService;
- 
+
     @GetMapping("/list")
     public String listVehicles(@RequestParam(name = "status", required = false) String status, Model model) {
         List<CompanyVehicle> vehicles;
@@ -32,50 +32,64 @@ public class CompanyVehicleController {
         model.addAttribute("vehicles", vehicles);
         return "company_vehicle/list";
     }
-    
+
     @GetMapping("/search")
     public String search(@RequestParam("query") String query, Model model) {
         List<CompanyVehicle> vehicles;
 
-        if (query.matches("\\d+")) { // ID Search
+        if (query.matches("\\d+")) {
             try {
                 CompanyVehicle vehicle = vehicleService.getVehicleById(Integer.parseInt(query));
                 vehicles = List.of(vehicle);
             } catch (NotFoundException e) {
-                vehicles = vehicleService.getAllVehicles(); // fallback list
+                vehicles = vehicleService.getAllVehicles();
                 model.addAttribute("errorMessage", e.getMessage());
             }
-        } else { // model Search
+        } else {
             vehicles = vehicleService.searchByModel(query);
 
             if (vehicles.isEmpty()) {
-                vehicles =vehicleService.getAllVehicles(); // fallback list
+                vehicles = vehicleService.getAllVehicles();
                 model.addAttribute("errorMessage", "No vehicles found for model: " + query);
             }
         }
 
         model.addAttribute("vehicles", vehicles);
-        return "companyVehicle/list";
+        return "company_vehicle/list";
     }
 
-
-
-    
     @GetMapping("/form")
     public String showVehicleForm(Model model) {
         model.addAttribute("vehicle", new CompanyVehicle());
         return "company_vehicle/form";
     }
-
+    
+    
     @PostMapping("/save")
     public String saveVehicle(@ModelAttribute CompanyVehicle vehicle) {
         vehicleService.saveVehicle(vehicle);
         return "redirect:/company-vehicle/list";
     }
 
+
     @GetMapping("/delete/{id}")
     public String deleteVehicle(@PathVariable int id) {
         vehicleService.deleteVehicle(id);
         return "redirect:/company-vehicle/list";
+    }
+
+    //STEP 2: Select available vehicle after choosing or adding customer
+    @GetMapping("/select")
+    public String selectVehicle(@RequestParam("customerId") int customerId, Model model) {
+        List<CompanyVehicle> availableVehicles = vehicleService.getVehiclesByStatus("Available");
+        model.addAttribute("vehicles", availableVehicles);
+        model.addAttribute("customerId", customerId);
+        return "company_vehicle/select";
+    }
+
+    //STEP 3: Redirect to rental booking form with both customerId and vehicleId
+    @GetMapping("/choose/{id}")
+    public String chooseVehicle(@PathVariable int id, @RequestParam("customerId") int customerId) {
+        return "redirect:/rental-booking/form?customerId=" + customerId + "&vehicleId=" + id;
     }
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Return Rental Vehicle</title></head>
+<body>
+    <h2>Return Rental Booking</h2>
+	<a th:href="@{/rental-booking/list}">Back to Bookings</a>
+
+	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+	    <p th:text="${errorMessage}"></p>
+	</div>
+
+
+    <form th:action="@{/rental-booking/return-form}" th:object="${booking}" method="post">
+        <input type="hidden" th:field="*{id}" />
+
+        Customer: 
+        <input type="text" th:value="${booking.customer.name}" readonly /><br/>
+
+		Vehicle: 
+		<input type="text" 
+		       th:value="|${booking.vehicle.model} [${booking.vehicle.numberPlate}]|" 
+		       readonly /><br/>
+
+        Booking Date: 
+        <input type="date" th:value="${booking.bookingDate}" readonly /><br/>
+
+        Scheduled Return Date: 
+        <input type="date" th:value="${booking.returnDate}" readonly /><br/>
+
+        Actual Return Date: 
+        <input type="date" th:field="*{actualReturnDate}" /><br/>
+
+		Late Charges (calculated): 
+		<input type="text" th:value="${booking.lateCharges != null ? booking.lateCharges : 0.0}" readonly /><br/>
+
+
+        <button type="submit">Confirm Return</button>
+    </form>
+</body>
+</html>

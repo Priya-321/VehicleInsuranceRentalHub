@@ -2,27 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin/admin-dashboard.css}" />
 </head>
 <body>
     <div class="dashboard-container">
-        <header>
+
+        <!-- Header -->
+        <header class="dashboard-header">
             <h1>Admin Dashboard</h1>
             <form th:action="@{/logout}" method="post">
                 <button class="logout-btn">Logout</button>
             </form>
         </header>
 
-        <section class="dashboard-section">
+        <!-- Main Section: User Management -->
+        <section class="dashboard-section primary-section">
             <h2>User Management</h2>
+            <p class="section-description">Manage platform users and roles efficiently.</p>
             <div class="card-container">
                 <a href="/admin/list" class="card">Manage Admins</a>
                 <a href="/agent/list" class="card">Manage Agents</a>
             </div>
         </section>
 
-        <section class="dashboard-section">
+        <!-- Secondary Section: Rental Services -->
+        <section class="dashboard-section secondary-section">
             <h2>Rental Services</h2>
+            <p class="section-description">Monitor and control rental customers, vehicles, and bookings under your supervision.</p>
             <div class="card-container">
                 <a href="/rental-customer/list" class="card">Rental Customers</a>
                 <a href="/company-vehicle/list" class="card">Company Vehicles</a>
@@ -30,8 +36,10 @@
             </div>
         </section>
 
-        <section class="dashboard-section">
+        <!-- Secondary Section: Insurance Services -->
+        <section class="dashboard-section secondary-section">
             <h2>Insurance Services</h2>
+            <p class="section-description">Oversee customer policies, insurance plans, and claim management.</p>
             <div class="card-container">
                 <a href="/insurance-customer/list" class="card">Insurance Customers</a>
                 <a href="/customer-vehicle/list" class="card">Customer Vehicles</a>

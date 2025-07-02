@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")
@@ -90,10 +91,14 @@ public class AdminController {
 
     @PostMapping("/update-password")
     public String updateAdminPassword(@RequestParam("id") int id,
-                                      @RequestParam("newPassword") String newPassword) {
+                                      @RequestParam("newPassword") String newPassword,
+                                      RedirectAttributes redirectAttributes) {
         String hashedPassword = passwordEncoder.encode(newPassword);
         adminService.updatePassword(id, hashedPassword);
+        
+        redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully!");
         return "redirect:/admin/list";
+        
     }
 
     @Autowired
