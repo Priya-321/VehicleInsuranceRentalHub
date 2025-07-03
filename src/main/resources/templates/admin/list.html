@@ -7,7 +7,12 @@
 <body>
 	<div class="popup success" th:if="${successMessage}" th:text="${successMessage}"></div>
     <div class="container">
+		<div class="back-button-container">
+				    <a href="/dashboard" class="back-btn">← Back</a>
+		</div>
+
         <h2>Admin Records</h2>
+		
 
         <!-- Search Form -->
         <form th:action="@{/admin/search}" method="get" class="search-form">
@@ -43,7 +48,9 @@
                     <td th:text="${a.name}">Admin Name</td>
                     <td th:text="${a.email}">admin@email.com</td>
                     <td>
-                        <a th:href="@{/admin/edit-password(id=${a.id})}">Change Password</a> |
+						<span th:if="${a.email == loggedInEmail}">
+						        <a th:href="@{/admin/edit-password(id=${a.id})}">Change Password</a> |
+						    </span>
                         <a th:href="@{/admin/delete/{id}(id=${a.id})}" class="delete-link">Delete</a>
                     </td>
                 </tr>

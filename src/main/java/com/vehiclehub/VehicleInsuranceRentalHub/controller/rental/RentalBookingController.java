@@ -7,17 +7,22 @@ import com.vehiclehub.VehicleInsuranceRentalHub.model.rental.RentalCustomer;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.CompanyVehicleService;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalBookingService;
 import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalCustomerService;
+import com.vehiclehub.VehicleInsuranceRentalHub.validation.ValidationGroups;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.validation.Valid;
 
 @Controller
@@ -34,15 +39,24 @@ public class RentalBookingController {
     private CompanyVehicleService vehicleService;
 
     @GetMapping("/list")
-    public String listBookings(Model model) {
+    public String listBookings(@RequestParam(value = "status", required = false) String status,
+                               Model model) {
         try {
-            List<RentalBooking> bookings = bookingService.getAllBookings();
+            List<RentalBooking> bookings;
+            if (status != null && !status.isEmpty()) {
+                bookings = bookingService.getBookingsByStatus(status);
+                model.addAttribute("filter", status);
+            } else {
+                bookings = bookingService.getAllBookings();
+                model.addAttribute("filter", "");
+            }
             model.addAttribute("bookings", bookings);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error loading bookings: " + e.getMessage());
         }
         return "rental_booking/list";
     }
+
 
 
     @GetMapping("/search")
@@ -69,7 +83,7 @@ public class RentalBookingController {
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
         }
 
-        return "rental_booking/list";  // ensure this matches your template location
+        return "rental_booking/list"; 
     }
 
     
@@ -91,11 +105,10 @@ public class RentalBookingController {
 
     //STEP 5: Save booking and update vehicle status
     @PostMapping("/save")
-    public String saveBooking(@ModelAttribute("booking") @Valid RentalBooking booking,
+    public String saveBooking(@Validated(ValidationGroups.OnCreate.class)
+                              @ModelAttribute("booking") RentalBooking booking,
                               BindingResult result,
                               Model model) {
-
-        // Custom logic: Ensure bookingDate <= returnDate
         if (booking.getBookingDate() != null && booking.getReturnDate() != null) {
             if (booking.getReturnDate().isBefore(booking.getBookingDate())) {
                 result.rejectValue("returnDate", "error.booking", "Return date must be after booking date.");
@@ -103,12 +116,10 @@ public class RentalBookingController {
         }
 
         if (result.hasErrors()) {
-            // Re-fetch customer and vehicle to display them again
             model.addAttribute("booking", booking);
             return "rental_booking/form";
         }
 
-        // Set vehicle status
         CompanyVehicle vehicle = vehicleService.getVehicleById(booking.getVehicle().getId());
         vehicle.setStatus("Booked");
         vehicleService.saveVehicle(vehicle);
@@ -136,39 +147,33 @@ public class RentalBookingController {
     }
 
     // Handle Return Submission
+    @Transactional
     @PostMapping("/return-form")
-    public String processReturn(@ModelAttribute RentalBooking bookingForm) {
-    	System.out.println("Return POST handler triggered for booking ID: " + bookingForm.getId());
+    public String processReturn(@ModelAttribute RentalBooking bookingForm,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            if (bookingForm.getActualReturnDate() == null) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Please select Actual Return Date.");
+                return "redirect:/rental-booking/return-form/" + bookingForm.getId();
+            }
 
-        RentalBooking booking = bookingService.getBookingById(bookingForm.getId());
-        LocalDate actualReturnDate = bookingForm.getActualReturnDate();
-        LocalDate scheduledReturnDate = booking.getReturnDate();
+            RentalBooking booking = bookingService.getBookingById(bookingForm.getId());
+            booking.setActualReturnDate(bookingForm.getActualReturnDate());
 
-        if (actualReturnDate == null || scheduledReturnDate == null) {
-            throw new IllegalArgumentException("Actual or Scheduled Return Date cannot be null");
+            bookingService.processReturn(booking.getId());
+
+            redirectAttributes.addFlashAttribute("successMessage", "Vehicle returned successfully.");
+            return "redirect:/rental-booking/list";
+
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            redirectAttributes.addFlashAttribute("errorMessage", "Return failed: " + e.getMessage());
+            return "redirect:/rental-booking/return-form/" + bookingForm.getId();
         }
-
-        booking.setActualReturnDate(actualReturnDate);
-
-        long daysLate = 0;
-        if (actualReturnDate.isAfter(scheduledReturnDate)) {
-            daysLate = ChronoUnit.DAYS.between(scheduledReturnDate, actualReturnDate);
-        }
-
-        double lateCharge = daysLate * 100; // or 1000
-        booking.setLateCharges(lateCharge);
-        booking.setStatus("Returned");
-
-        // ✅ Mark vehicle as Available
-        CompanyVehicle vehicle = booking.getVehicle();
-        vehicle.setStatus("Available");
-        vehicleService.saveVehicle(vehicle);
-
-        bookingService.saveBooking(booking);
-        
-        return "redirect:/rental-booking/list";
-        
     }
+
+
+
 
 
 }

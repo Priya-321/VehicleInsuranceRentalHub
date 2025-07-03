@@ -1,19 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Agent</title></head>
+<head>
+    <title>Add New Agent</title>
+    <link rel="stylesheet" th:href="@{/css/agent/add-agent.css}" />
+</head>
 <body>
-    <h2>Add New Agent</h2>
-    <form th:action="@{/agent/save}" th:object="${agent}" method="post">
-        Name: <input type="text" th:field="*{name}"><br>
-        Email: <input type="email" th:field="*{email}"><br>
-        Phone: <input type="text" th:field="*{phone}"><br>
-		Password: <input type="password" th:field="*{password}"><br>
-        Role: 
-        <select th:field="*{role}">
-            <option value="RENTAL">RENTAL</option>
-            <option value="INSURANCE">INSURANCE</option>
-        </select><br>
-        <button type="submit">Save</button>
-    </form>
+    <div class="form-container">
+        <h2>Add New Agent</h2>
+
+        <form th:action="@{/agent/save}" th:object="${agent}" method="post" class="agent-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" th:field="*{name}" id="name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" th:field="*{email}" id="email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" th:field="*{phone}" id="phone" required />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" th:field="*{password}" id="password" required />
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select th:field="*{role}" id="role" required>
+                    <option value="RENTAL">RENTAL</option>
+                    <option value="INSURANCE">INSURANCE</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">Save Agent</button>
+        </form>
+
+        <div class="back-link">
+            <a href="/agent/list">← Back to Agent List</a>
+        </div>
+    </div>
 </body>
 </html>

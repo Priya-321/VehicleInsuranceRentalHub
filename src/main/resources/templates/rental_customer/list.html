@@ -1,52 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Rental Customers</title></head>
+<head>
+    <title>Rental Customers</title>
+    <link rel="stylesheet" th:href="@{/css/rental/rental-customer-list.css}" />
+</head>
 <body>
-    <h2>Rental Customers</h2>
+    <div class="container">
+        <h2>Rental Customers</h2>
 
-	<a href="/dashboard">Back to Dashboard</a>
-	
-	<!-- Search Form -->
-	<form th:action="@{/rental-customer/search}" method="get" style="margin-bottom: 1rem;">
-	    <input type="text" name="query" placeholder="Search by ID or name" />
-	    <button type="submit">Search</button>
-	</form>
+        <div class="top-actions">
+            <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+            
+        </div>
 
-	
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
+        <!-- Search Form -->
+        <form th:action="@{/rental-customer/search}" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Search by ID or name" />
+            <button type="submit">Search</button>
+            <a href="/rental-customer/list" class="btn show-all-btn">View All</a>
+        </form>
 
-	<form th:action="@{/rental-customer/list}" method="get" style="display:inline;">
-		    <button type="submit">View All</button>
-	</form>
-		
-    <form method="get" th:action="@{/rental-customer/list}">
-        Filter by Agent:
-        <select name="agentId">
-            <option value="">All</option>
-            <option th:each="a : ${agents}" 
-                    th:value="${a.id}" 
-                    th:text="${a.name}" 
-                    th:selected="${a.id == selectedAgentId}">
-            </option>
-        </select>
-        <button type="submit">Filter</button>
-    </form>
+        <!-- Filter by Agent -->
+        <form method="get" th:action="@{/rental-customer/list}" class="filter-form">
+            <label for="agentId">Filter by Agent:</label>
+            <select name="agentId" id="agentId">
+                <option value="">All</option>
+                <option th:each="a : ${agents}" 
+                        th:value="${a.id}" 
+                        th:text="${a.name}" 
+                        th:selected="${a.id == selectedAgentId}">
+                </option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
 
-    <br/>
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
-    <table border="1">
-        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Agent</th><th>Action</th></tr>
-        <tr th:each="c : ${customers}">
-            <td th:text="${c.id}"></td>
-            <td th:text="${c.name}"></td>
-            <td th:text="${c.email}"></td>
-            <td th:text="${c.phone}"></td>
-            <td th:text="${c.agent.name}"></td>
-            <td><a th:href="@{/rental-customer/delete/{id}(id=${c.id})}">Delete</a></td>
-        </tr>
-    </table>
+        <!-- Table -->
+        <table class="customer-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Agent</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${customers}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.name}"></td>
+                    <td th:text="${c.email}"></td>
+                    <td th:text="${c.phone}"></td>
+                    <td th:text="${c.agent.name}"></td>
+                    <td>
+                        <a th:href="@{/rental-customer/delete/{id}(id=${c.id})}" class="delete-link">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

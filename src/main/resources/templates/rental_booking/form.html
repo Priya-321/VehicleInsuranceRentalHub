@@ -2,29 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>New Rental Booking</title>
+    <link rel="stylesheet" th:href="@{/css/rental/booking-form.css}" />
 </head>
 <body>
-<h2>Create New Booking</h2>
+    <div class="booking-container">
+        <h2>Create New Rental Booking</h2>
 
-<form th:action="@{/rental-booking/save}" th:object="${booking}" method="post">
-    <input type="hidden" th:field="*{customer.id}" />
-    <input type="hidden" th:field="*{vehicle.id}" />
+        <!-- Display selected customer and vehicle info -->
+        <div class="summary-box">
+            <p><strong>Customer:</strong> <span th:text="${booking.customer.name}">[Customer Name]</span></p>
+            <p><strong>Vehicle:</strong> <span th:text="${booking.vehicle.model} + ' [' + ${booking.vehicle.numberPlate} + ']'">[Vehicle Info]</span></p>
+        </div>
 
-    <p th:if="${#fields.hasErrors('bookingDate')}" style="color:red" th:errors="*{bookingDate}"></p>
-    Booking Date: <input type="date" th:field="*{bookingDate}" /><br/>
+        <form th:action="@{/rental-booking/save}" th:object="${booking}" method="post" class="booking-form">
+            <input type="hidden" th:field="*{customer.id}" />
+            <input type="hidden" th:field="*{vehicle.id}" />
 
-    <p th:if="${#fields.hasErrors('returnDate')}" style="color:red" th:errors="*{returnDate}"></p>
-    Return Date: <input type="date" th:field="*{returnDate}" /><br/>
+            <!-- Booking Date -->
+            <label for="bookingDate">Booking Date:</label>
+            <input type="date" th:field="*{bookingDate}" id="bookingDate" />
+            <p th:if="${#fields.hasErrors('bookingDate')}" class="error" th:errors="*{bookingDate}"></p>
 
-    <p th:if="${#fields.hasErrors('status')}" style="color:red" th:errors="*{status}"></p>
-    Status:
-    <select th:field="*{status}">
-        <option value="Booked">Booked</option>
-    </select><br/>
+            <!-- Return Date -->
+            <label for="returnDate">Return Date:</label>
+            <input type="date" th:field="*{returnDate}" id="returnDate" />
+            <p th:if="${#fields.hasErrors('returnDate')}" class="error" th:errors="*{returnDate}"></p>
 
-    <button type="submit">Confirm Booking</button>
-</form>
+            <!-- Status -->
+            <label for="status">Status:</label>
+            <select th:field="*{status}" id="status">
+                <option value="Booked">Booked</option>
+            </select>
+            <p th:if="${#fields.hasErrors('status')}" class="error" th:errors="*{status}"></p>
 
+            <button type="submit" class="submit-btn">Confirm Booking</button>
+        </form>
 
+        <div class="back-link">
+            <a href="/dashboard">← Back to Dashboard</a>
+        </div>
+    </div>
 </body>
 </html>

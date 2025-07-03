@@ -2,36 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Select Vehicle</title>
+    <link rel="stylesheet" th:href="@{/css/rental/select-form.css}" />
 </head>
 <body>
-    <h2>Select a Vehicle for Booking</h2>
+    <div class="container">
+        <h2>Select a Vehicle for Booking</h2>
 
-    <p th:if="${vehicles.isEmpty()}">No available vehicles found.</p>
+        <div th:if="${vehicles.isEmpty()}" class="no-data">
+            <p>No available vehicles found.</p>
+        </div>
 
-    <table border="1" th:if="${not #lists.isEmpty(vehicles)}">
-        <thead>
-            <tr>
-                <th>Model</th>
-                <th>Number Plate</th>
-                <th>Type</th>
-                <th>Price</th>
-                <th>Select</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="vehicle : ${vehicles}">
-                <td th:text="${vehicle.model}">Model</td>
-                <td th:text="${vehicle.numberPlate}">Number Plate</td>
-                <td th:text="${vehicle.type}">Type</td>
-                <td th:text="${vehicle.price}">Price</td>
-                <td>
-                    <a th:href="@{/company-vehicle/choose/{id}(id=${vehicle.id}, customerId=${customerId})}">Choose</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <div th:if="${not #lists.isEmpty(vehicles)}">
+            <table class="vehicle-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Number Plate</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="vehicle : ${vehicles}">
+                        <td th:text="${vehicle.model}">Model</td>
+                        <td th:text="${vehicle.numberPlate}">Number Plate</td>
+                        <td th:text="${vehicle.type}">Type</td>
+                        <td th:text="${vehicle.price}">Price</td>
+                        <td>
+                            <a th:href="@{/company-vehicle/choose/{id}(id=${vehicle.id}, customerId=${customerId})}" class="select-btn">Choose</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <br/>
-    <a th:href="@{/rental-customer/form}">Back</a>
+        <div class="back-link">
+            <a th:href="@{/rental-customer/form}">← Back to Customer Form</a>
+        </div>
+    </div>
 </body>
 </html>

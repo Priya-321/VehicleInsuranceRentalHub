@@ -1,52 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Rental Bookings</title></head>
+<head>
+    <title>Rental Booking History</title>
+    <link rel="stylesheet" th:href="@{/css/rental/booking-list.css}" />
+</head>
 <body>
-    <h2>Rental Booking History</h2>
+    <div class="container">
+        <h2>Rental Booking History</h2>
 
-    <!-- Search Form -->
-    <form th:action="@{/rental-booking/search}" method="get" style="margin-bottom: 1rem;">
-        <input type="text" name="query" placeholder="Search by ID or customer name" />
-        <button type="submit">Search</button>
-    </form>
+        <div class="top-actions">
+            <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+            <a href="/rental-customer/form" class="add-btn">+ New Booking</a>
+        </div>
 
-    <!-- Error Message -->
-    <div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-        <p th:text="${errorMessage}"></p>
+        <!-- Search Form -->
+        <form th:action="@{/rental-booking/search}" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Search by ID or customer name" />
+            <button type="submit">Search</button>
+            <a href="/rental-booking/list" class="btn show-all-btn">View All</a>
+        </form>
+
+       
+        <form method="get" th:action="@{/rental-booking/list}" class="filter-form">
+            <label for="agentId">Filter by Agent:</label>
+            <select name="agentId" id="agentId">
+                <option value="">All</option>
+                <option th:each="a : ${agents}" 
+                        th:value="${a.id}" 
+                        th:text="${a.name}" 
+                        th:selected="${a.id == selectedAgentId}">
+                </option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+        
+
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <!-- Table -->
+        <table class="booking-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Status</th>
+                    <th>Late Charges</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="b : ${bookings}">
+                    <td th:text="${b.id}"></td>
+                    <td th:text="${b.customer.name}"></td>
+                    <td th:text="${b.vehicle != null ? b.vehicle.model + ' [' + b.vehicle.numberPlate + ']' : 'N/A'}"></td>
+                    <td th:text="${b.bookingDate}"></td>
+                    <td th:text="${b.returnDate}"></td>
+                    <td th:text="${b.status}"></td>
+                    <td th:text="${b.lateCharges}"></td>
+                    <td>
+                        <a th:href="@{/rental-booking/delete/{id}(id=${b.id})}" class="delete-link">Delete</a>
+                        <span th:if="${b.status == 'Booked'}"> | 
+                            <a th:href="@{/rental-booking/return-form/{id}(id=${b.id})}">Return</a>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-	<form th:action="@{/rental-booking/list}" method="get" style="display:inline;">
-		    <button type="submit">View All</button>
-	</form>
-		
-    <a href="/dashboard">back</a><br/><br/>
-
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Customer</th>
-            <th>Vehicle</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Status</th>
-            <th>Late Charges</th>
-            <th>Action</th>
-        </tr>
-        <tr th:each="b : ${bookings}">
-            <td th:text="${b.id}"></td>
-            <td th:text="${b.customer.name}"></td>
-			<td th:text="${b.vehicle != null ? b.vehicle.model + ' [' + b.vehicle.numberPlate + ']' : 'N/A'}"></td>
-            <td th:text="${b.bookingDate}"></td>
-            <td th:text="${b.returnDate}"></td>
-            <td th:text="${b.status}"></td>
-            <td th:text="${b.lateCharges}"></td>
-            <td>
-                <a th:href="@{/rental-booking/delete/{id}(id=${b.id})}">Delete</a>
-                <span th:if="${b.status} == 'Booked'"> | 
-                    <a th:href="@{/rental-booking/return-form/{id}(id=${b.id})}">Return</a>
-                </span>
-            </td>
-        </tr>
-    </table>
 </body>
 </html>

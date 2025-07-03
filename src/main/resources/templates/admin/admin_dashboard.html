@@ -5,50 +5,59 @@
     <link rel="stylesheet" th:href="@{/css/admin/admin-dashboard.css}" />
 </head>
 <body>
-	<div th:replace="fragments/navbar :: fixed-navbar"></div>
-    <div class="dashboard-container">
+    <div class="dashboard-wrapper">
 
-        <!-- Header -->
-        <header class="dashboard-header">
-            <h1>Admin Dashboard</h1>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <ul class="nav-links">
+                <li><a href="/rental-customer/list">Rental Customers</a></li>
+                <li><a href="/rental-booking/list">Rental Bookings</a></li>
+                <li><a href="/insurance-customer/list">Insurance Customers</a></li>
+                <li><a href="/customer-vehicle/list">Customer Vehicles</a></li>
+                <li><a href="/policy/list">Policies</a></li>
+                <li><a href="/claim/list">Claims</a></li>
+            </ul>
             <form th:action="@{/logout}" method="post">
                 <button class="logout-btn">Logout</button>
             </form>
-        </header>
+        </aside>
 
-        <!-- Main Section: User Management -->
-        <section class="dashboard-section primary-section">
-            <h2>User Management</h2>
-            <p class="section-description">Manage platform users and roles efficiently.</p>
-            <div class="card-container">
-                <a href="/admin/list" class="card">Manage Admins</a>
-                <a href="/agent/list" class="card">Manage Agents</a>
-            </div>
-        </section>
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <section class="welcome-box">
+                <h1>Welcome, Admin</h1>
+                <p>Access core admin tasks quickly from the cards below.</p>
+            </section>
 
-        <!-- Secondary Section: Rental Services -->
-        <section class="dashboard-section secondary-section">
-            <h2>Rental Services</h2>
-            <p class="section-description">Monitor and control rental customers, vehicles, and bookings under your supervision.</p>
-            <div class="card-container">
-                <a href="/rental-customer/list" class="card">Rental Customers</a>
-                <a href="/company-vehicle/list" class="card">Company Vehicles</a>
-                <a href="/rental-booking/list" class="card">Rental Bookings</a>
-            </div>
-        </section>
+            <!-- User Management -->
+            <section class="dashboard-section">
+                <h2>User Management</h2>
+                <p class="section-description">Manage platform users and roles.</p>
+                <div class="card-container">
+                    <a href="/admin/list" class="card">Manage Admins</a>
+                    <a href="/agent/list" class="card">Manage Agents</a>
+                </div>
+            </section>
 
-        <!-- Secondary Section: Insurance Services -->
-        <section class="dashboard-section secondary-section">
-            <h2>Insurance Services</h2>
-            <p class="section-description">Oversee customer policies, insurance plans, and claim management.</p>
-            <div class="card-container">
-                <a href="/insurance-customer/list" class="card">Insurance Customers</a>
-                <a href="/customer-vehicle/list" class="card">Customer Vehicles</a>
-                <a href="/insurance-plan/list" class="card">Insurance Plans</a>
-                <a href="/policy/list" class="card">Policies</a>
-                <a href="/claim/list" class="card">Claims</a>
-            </div>
-        </section>
+            <!-- Company Vehicles -->
+            <section class="dashboard-section">
+                <h2>Company Vehicles</h2>
+                <p class="section-description">View and manage vehicles used in rental services.</p>
+                <div class="card-container">
+                    <a href="/company-vehicle/list" class="card">View Company Vehicles</a>
+                </div>
+            </section>
+
+            <!-- Insurance Plans -->
+            <section class="dashboard-section">
+                <h2>Insurance Plans</h2>
+                <p class="section-description">Oversee and configure insurance plans for customers.</p>
+                <div class="card-container">
+                    <a href="/insurance-plan/list" class="card">View Insurance Plans</a>
+                </div>
+            </section>
+        </main>
     </div>
 </body>
 </html>

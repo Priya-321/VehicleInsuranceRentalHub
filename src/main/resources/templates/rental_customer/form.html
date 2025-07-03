@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add or Select Rental Customer</title></head>
+<head>
+    <title>Add or Select Rental Customer</title>
+    <link rel="stylesheet" th:href="@{/css/rental/customer-form.css}" />
+</head>
 <body>
-    <h2>Add New Rental Customer</h2>
+    <div class="form-container">
+        <a th:href="@{/dashboard}" class="back-link">← Back to Dashboard</a>
 
-	<a th:href="@{/dashboard}">Back</a>
+        <h2>Add New Rental Customer</h2>
 
-    <!-- New Customer Form -->
-    <form th:action="@{/rental-customer/save}" th:object="${customer}" method="post">
-        Name: <input type="text" th:field="*{name}" /><br/>
-        Email: <input type="email" th:field="*{email}" /><br/>
-        Phone: <input type="text" th:field="*{phone}" /><br/>
-        Address: <input type="text" th:field="*{address}" /><br/>
+        <!-- New Customer Form -->
+        <form th:action="@{/rental-customer/save}" th:object="${customer}" method="post" class="form-section">
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" required />
 
-        Assigned Agent:
-        <select th:field="*{agent}">
-            <option th:each="a : ${agents}" th:value="${a.id}" th:text="${a.name}"></option>
-        </select><br/>
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" required />
 
-        <button type="submit">Save & Select Vehicle</button>
-    </form>
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" th:field="*{phone}" required />
 
-    <hr/>
+            <label for="address">Address:</label>
+            <input type="text" id="address" th:field="*{address}" required />
 
-    <h2>OR Select Existing Customer</h2>
+            <label for="agent">Assigned Agent:</label>
+            <select th:field="*{agent}" id="agent" required>
+                <option th:each="a : ${agents}" th:value="${a.id}" th:text="${a.name}"></option>
+            </select>
 
-	<form th:action="@{/company-vehicle/select}" method="get">
-	    <select name="customerId" required>
-	        <option value="">-- Select Customer --</option>
-	        <option th:each="c : ${existingCustomers}" 
-	                th:value="${c.id}" 
-	                th:text="${c.name + ' - ' + c.phone}">
-	        </option>
-	    </select>
-	    <button type="submit">Select & Proceed</button>
-	</form>
+            <button type="submit" class="primary-btn">Save & Select Vehicle</button>
+        </form>
 
+        <hr class="divider"/>
+
+        <h2>Select Existing Customer</h2>
+        <form th:action="@{/company-vehicle/select}" method="get" class="form-section">
+            <label for="customerId">Choose Customer:</label>
+            <select name="customerId" id="customerId" required>
+                <option value="">-- Select Customer --</option>
+                <option th:each="c : ${existingCustomers}" 
+                        th:value="${c.id}" 
+                        th:text="${c.name + ' - ' + c.phone}">
+                </option>
+            </select>
+            <button type="submit" class="secondary-btn">Select & Proceed</button>
+        </form>
+    </div>
 </body>
 </html>

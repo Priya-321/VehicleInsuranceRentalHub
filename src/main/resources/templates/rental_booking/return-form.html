@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Return Rental Vehicle</title></head>
+<head>
+    <title>Return Rental Vehicle</title>
+    <link rel="stylesheet" th:href="@{/css/rental/return-form.css}" />
+</head>
 <body>
-    <h2>Return Rental Booking</h2>
-	<a th:href="@{/rental-booking/list}">Back to Bookings</a>
+	<!-- Success/Error Messages -->
+	<div th:if="${successMessage}" class="popup success" th:text="${successMessage}"></div>
+	<div th:if="${errorMessage}" class="popup error" th:text="${errorMessage}"></div>
 
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
+    <div class="form-container">
+        <h2>Return Rental Booking</h2>
+        
+        <a href="/rental-booking/list" class="back-link">← Back to Bookings</a>
 
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
-    <form th:action="@{/rental-booking/return-form}" th:object="${booking}" method="post">
-        <input type="hidden" th:field="*{id}" />
+        <form th:action="@{/rental-booking/return-form}" th:object="${booking}" method="post" class="return-form">
+            <input type="hidden" th:field="*{id}" />
 
-        Customer: 
-        <input type="text" th:value="${booking.customer.name}" readonly /><br/>
+            <label>Customer:</label>
+            <input type="text" th:value="${booking.customer.name}" readonly />
 
-		Vehicle: 
-		<input type="text" 
-		       th:value="|${booking.vehicle.model} [${booking.vehicle.numberPlate}]|" 
-		       readonly /><br/>
+            <label>Vehicle:</label>
+            <input type="text" th:value="|${booking.vehicle.model} [${booking.vehicle.numberPlate}]|" readonly />
 
-        Booking Date: 
-        <input type="date" th:value="${booking.bookingDate}" readonly /><br/>
+            <label>Booking Date:</label>
+            <input type="date" th:value="${booking.bookingDate}" readonly />
 
-        Scheduled Return Date: 
-        <input type="date" th:value="${booking.returnDate}" readonly /><br/>
+            <label>Scheduled Return Date:</label>
+            <input type="date" th:value="${booking.returnDate}" readonly />
 
-        Actual Return Date: 
-        <input type="date" th:field="*{actualReturnDate}" /><br/>
+            <label for="actualReturnDate">Actual Return Date:</label>
+            <input type="date" th:field="*{actualReturnDate}" id="actualReturnDate" />
 
-		Late Charges (calculated): 
-		<input type="text" th:value="${booking.lateCharges != null ? booking.lateCharges : 0.0}" readonly /><br/>
+            <label>Late Charges:</label>
+            <input type="text" th:value="${booking.lateCharges != null ? booking.lateCharges : 0.0}" readonly />
 
-
-        <button type="submit">Confirm Return</button>
-    </form>
+            <button type="submit" class="submit-btn">Confirm Return</button>
+        </form>
+    </div>
 </body>
+<script>
+    const popup = document.querySelector('.popup');
+    if (popup) {
+        setTimeout(() => {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(-20px)';
+            setTimeout(() => popup.style.display = 'none', 500);
+        }, 3000);
+    }
+</script>
+
 </html>

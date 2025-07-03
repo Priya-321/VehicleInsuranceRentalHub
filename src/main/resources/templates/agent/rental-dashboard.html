@@ -2,23 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Rental Agent Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/agent/rental-dashboard.css}" />
 </head>
 <body>
-    <h2>Welcome, Rental Agent</h2>
+    <div class="dashboard-wrapper">
 
-    <ul>
-        <li><a href="/rental-customer/list">Customers</a></li>
-        <li><a href="/company-vehicle/list">Company Vehicles</a></li>
-        <li><a href="/rental-booking/list">Bookings</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+			<h2>Vehicle Insurance & Rental Hub</h2>
+            <h2>Rental Panel</h2>
+            <ul class="nav-links">
+                <li><a href="/rental-customer/list">Customers</a></li>
+                <li><a href="/company-vehicle/list">Vehicles</a></li>
+                <li><a href="/rental-booking/list">Bookings</a></li>
+            </ul>
+            <form th:action="@{/logout}" method="post">
+                <button class="logout-btn">Logout</button>
+            </form>
+        </aside>
 
-    <br/>
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <section class="welcome-box">
+                <h1>Welcome, Rental Agent</h1>
+                <p>Oversee your assigned vehicles, customers, and booking operations.</p>
+            </section>
 
-    <!-- New Booking Button -->
-    <form th:action="@{/rental-customer/form}" method="get">
-        <button type="submit">New Booking</button>
-    </form>
-
+            <section class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="/rental-booking/list" class="card">Manage Bookings</a>
+                    <a href="/rental-customer/form" class="card highlight">+ New Booking</a>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>

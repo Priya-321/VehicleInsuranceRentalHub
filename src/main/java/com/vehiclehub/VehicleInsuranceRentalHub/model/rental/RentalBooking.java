@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.vehiclehub.VehicleInsuranceRentalHub.validation.ValidationGroups;
+
 import java.time.LocalDate;
 @Entity
 public class RentalBooking {
@@ -25,15 +27,17 @@ public class RentalBooking {
 	    @ManyToOne
 	    private CompanyVehicle vehicle;
 
-	    @NotNull(message = "Booking date is required")
-	    @FutureOrPresent(message = "Booking date cannot be in the past")
-	    @DateTimeFormat(pattern = "yyyy-MM-dd")
-	    private LocalDate bookingDate;
+	    @FutureOrPresent(
+	            message = "Booking date cannot be in the past",
+	            groups = ValidationGroups.OnCreate.class
+	        )
+	        private LocalDate bookingDate;
 
-	    @NotNull(message = "Return date is required")
-	    @Future(message = "Return date must be in the future")
-	    @DateTimeFormat(pattern = "yyyy-MM-dd")
-	    private LocalDate returnDate;
+	        @Future(
+	            message = "Return date must be in the future",
+	            groups = ValidationGroups.OnCreate.class
+	        )
+	        private LocalDate returnDate;
 
 	    private LocalDate actualReturnDate;
 

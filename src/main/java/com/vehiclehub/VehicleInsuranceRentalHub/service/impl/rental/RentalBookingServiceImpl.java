@@ -11,6 +11,7 @@ import com.vehiclehub.VehicleInsuranceRentalHub.service.rental.RentalCustomerSer
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -29,6 +30,7 @@ public class RentalBookingServiceImpl implements RentalBookingService {
     @Autowired
     private CompanyVehicleService vehicleService;
     
+    @Transactional
     public RentalBooking saveBooking(RentalBooking booking) {
         // Get full customer and vehicle using the IDs
         RentalCustomer fullCustomer = customerService.getCustomerById(booking.getCustomer().getId());
@@ -58,36 +60,49 @@ public class RentalBookingServiceImpl implements RentalBookingService {
     }
     
     @Override
+    @Transactional
+    public RentalBooking updateBooking(RentalBooking booking) {
+        return bookingRepository.save(booking);
+    }
+
+    
+    @Transactional
+    @Override
     public RentalBooking processReturn(int bookingId) {
         RentalBooking booking = bookingRepository.findById(bookingId)
             .orElseThrow(() -> new NotFoundException("Booking not found with ID: " + bookingId));
 
-        LocalDate actualReturn = booking.getActualReturnDate(); // should already be set from form
+        if (booking.getCustomer() == null || booking.getVehicle() == null) {
+            throw new IllegalStateException("Customer or Vehicle is null in booking record.");
+        }
+
+        LocalDate actualReturn = booking.getActualReturnDate(); // from form
         LocalDate scheduledReturn = booking.getReturnDate();
 
-        // Defensive null check
         if (actualReturn == null) {
-            actualReturn = LocalDate.now(); // fallback
+            actualReturn = LocalDate.now();
             booking.setActualReturnDate(actualReturn);
         }
 
         double lateCharge = 0.0;
-
         if (scheduledReturn != null && actualReturn.isAfter(scheduledReturn)) {
             long lateDays = ChronoUnit.DAYS.between(scheduledReturn, actualReturn);
-            lateCharge = Math.max(0.0, lateDays * 100); // Ensure non-negative
+            lateCharge = Math.max(0.0, lateDays * 100);
         }
 
         booking.setLateCharges(lateCharge);
         booking.setStatus("Returned");
 
-        // Update vehicle availability
-        CompanyVehicle vehicle = booking.getVehicle();
+        // Update vehicle status
+        CompanyVehicle vehicle = vehicleService.getVehicleById(booking.getVehicle().getId()); // <- Refetched
         vehicle.setStatus("Available");
         vehicleService.saveVehicle(vehicle);
 
+        booking.setVehicle(vehicle); // Re-attach to updated one
+
         return bookingRepository.save(booking);
     }
+
 
 
 

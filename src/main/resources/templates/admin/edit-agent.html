@@ -2,31 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit Agent</title>
+    <link rel="stylesheet" th:href="@{/css/admin/edit-agent.css}" />
 </head>
+
 <body>
-    <h2>Edit Agent Phone & Password</h2>
+	
+	
+    <div class="form-container">
+        <h2>Edit Agent Phone & Password</h2>
 
-    <form th:action="@{'/admin/update-agent/' + ${agent.id}}" method="post">
-        <label>Agent ID:</label>
-        <span th:text="${agent.id}"></span><br/>
+        <form th:action="@{'/admin/update-agent/' + ${agent.id}}" method="post" class="edit-form">
 
-        <label>Name:</label>
-        <span th:text="${agent.name}"></span><br/>
+            <div class="form-group">
+                <label>Agent ID:</label>
+                <span th:text="${agent.id}"></span>
+            </div>
 
-        <label>Email:</label>
-        <span th:text="${agent.email}"></span><br/>
+            <div class="form-group">
+                <label>Name:</label>
+                <span th:text="${agent.name}"></span>
+            </div>
 
-        <label>New Phone:</label>
-        <input type="text" name="phone" th:value="${agent.phone}" required /><br/>
+            <div class="form-group">
+                <label>Email:</label>
+                <span th:text="${agent.email}"></span>
+            </div>
 
-		<label>New Password (optional):</label>
-		<input type="password" name="newPassword" />
+            <div class="form-group">
+                <label for="phone">New Phone:</label>
+                <input type="text" name="phone" id="phone" th:value="${agent.phone}" required />
+            </div>
 
+            <div class="form-group">
+                <label for="newPassword">New Password (optional):</label>
+                <input type="password" name="newPassword" id="newPassword" />
+            </div>
 
-        <button type="submit">Update Agent</button>
-    </form>
+            <button type="submit" class="submit-btn">Update Agent</button>
+        </form>
 
-    <br/>
-    <a href="/agent/list">Back to Agent List</a>
+        <div class="back-link">
+            <a href="/agent/list">← Back to Agent List</a>
+        </div>
+    </div>
+	
+	
 </body>
+
 </html>

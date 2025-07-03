@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Agent List</title></head>
+<head>
+    <title>Agent List</title>
+    <link rel="stylesheet" th:href="@{/css/agent/agent-list.css}" />
+</head>
+
 <body>
-    <h2>All Agents</h2>
+	<!-- Success Popup -->
+		<div th:if="${successMessage}" th:text="${successMessage}" class="popup success"></div>
 
+    <div class="container">
+        <h2>Agents Record</h2>
 
-	<!-- Search Form -->
-	<form th:action="@{/admin/search}" method="get" style="margin-bottom: 1rem;">
-	    <input type="text" name="query" placeholder="Search by ID or name" />
-	    <button type="submit">Search</button>
-	</form>
+        <!-- Back Button -->
+        <div class="back-button-container">
+            <a href="/dashboard" class="back-btn">← Back</a>
+        </div>
 
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
+        <!-- Search Form -->
+        <form th:action="@{/agent/search}" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Search by ID or name" />
+            <button type="submit">Search</button>
+            <a href="/agent/list" class="show-all-btn">Show All</a>
+        </form>
 
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
-    <a href="/agent/form">Add New Agent</a>
+        <!-- Add Agent Button -->
+        <div class="add-new">
+            <a href="/agent/form" class="add-btn">+ Add New Agent</a>
+        </div>
 
-    <form method="get" th:action="@{/agent/list}">
-        Filter by Role:
-        <select name="role">
-            <option value="" th:selected="${filter == ''}">All</option>
-            <option value="RENTAL" th:selected="${filter == 'RENTAL'}">RENTAL</option>
-            <option value="INSURANCE" th:selected="${filter == 'INSURANCE'}">INSURANCE</option>
-        </select>
-        <button type="submit">Filter</button>
-    </form>
+        <!-- Filter by Role -->
+        <form method="get" th:action="@{/agent/list}" class="filter-form">
+            <label for="role">Filter by Role:</label>
+            <select name="role" id="role">
+                <option value="" th:selected="${filter == ''}">All</option>
+                <option value="RENTAL" th:selected="${filter == 'RENTAL'}">RENTAL</option>
+                <option value="INSURANCE" th:selected="${filter == 'INSURANCE'}">INSURANCE</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
 
-    <br/>
-
-    <table border="1">
-        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Action</th></tr>
-        <tr th:each="a : ${agents}">
-            <td th:text="${a.id}"></td>
-            <td th:text="${a.name}"></td>
-            <td th:text="${a.email}"></td>
-            <td th:text="${a.phone}"></td>
-            <td th:text="${a.role}"></td>
-            <td>
-				<a th:href="@{/admin/edit-agent/{id}(id=${a.id})}">Edit</a> |
-				<a th:href="@{/agent/delete/{id}(id=${a.id})}">Delete</a>
-			</td>
-        </tr>
-    </table>
+        <!-- Agent Table -->
+        <table class="agent-table">
+            <thead>
+                <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="a : ${agents}">
+                    <td th:text="${a.id}"></td>
+                    <td th:text="${a.name}"></td>
+                    <td th:text="${a.email}"></td>
+                    <td th:text="${a.phone}"></td>
+                    <td th:text="${a.role}"></td>
+                    <td>
+                        <a th:href="@{/admin/edit-agent/{id}(id=${a.id})}">Edit</a> |
+                        <a th:href="@{/agent/delete/{id}(id=${a.id})}" class="delete-link">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
+<script>
+	        const popup = document.querySelector('.popup');
+	        if (popup) {
+	            setTimeout(() => {
+	                popup.style.opacity = '0';
+	                popup.style.transform = 'translateY(-20px)';
+	                setTimeout(() => popup.style.display = 'none', 500);
+	            }, 3000); // hides after 3s
+	        }
+</script>
 </html>

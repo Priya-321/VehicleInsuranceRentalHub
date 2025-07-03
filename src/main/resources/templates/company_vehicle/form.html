@@ -1,23 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Vehicle</title></head>
+<head>
+    <title>Add Company Vehicle</title>
+    <link rel="stylesheet" th:href="@{/css/rental/vehicle-form.css}" />
+</head>
 <body>
-    <h2>Add Company Vehicle</h2>
+    <div class="form-container">
+        <h2>Add Company Vehicle</h2>
 
-    <form th:action="@{/company-vehicle/save}" th:object="${vehicle}" method="post">
-		Model: <input type="text" th:field="*{model}" /><br/>
-		Number Plate: <input type="text" th:field="*{numberPlate}" /><br/>
+        <form th:action="@{/company-vehicle/save}" th:object="${vehicle}" method="post" class="vehicle-form">
 
-        Type: <input type="text" th:field="*{type}" /><br/>
-        Status:
-        <select th:field="*{status}">
-            <option value="Available">Available</option>
-            <option value="Booked">Booked</option>
-        </select><br/>
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" id="model" th:field="*{model}" required />
+            </div>
 
-		Price: <input type="text" th:field="*{price}" /><br/>
+            <div class="form-group">
+                <label for="numberPlate">Number Plate:</label>
+                <input type="text" id="numberPlate" th:field="*{numberPlate}" required />
+            </div>
 
-        <button type="submit">Save</button>
-    </form>
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <input type="text" id="type" th:field="*{type}" required />
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" th:field="*{status}">
+                    <option value="Available">Available</option>
+                    <option value="Booked">Booked</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="text" id="price" th:field="*{price}" required />
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">Save Vehicle</button>
+                <a href="/company-vehicle/list" class="cancel-link">← Cancel</a>
+            </div>
+
+        </form>
+    </div>
 </body>
 </html>

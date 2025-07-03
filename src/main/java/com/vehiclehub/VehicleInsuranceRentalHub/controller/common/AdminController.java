@@ -26,9 +26,12 @@ public class AdminController {
 	
 	
 	@GetMapping("/list")
-	public String listAdmins(Model model) {
+	public String listAdmins(Model model, Principal principal) {
 		List<Admin> admins = adminService.getAllAdmins();
 		model.addAttribute("admins", admins);
+		
+		model.addAttribute("loggedInEmail", principal.getName());
+		
 		return "admin/list";
 	}
 
@@ -93,13 +96,18 @@ public class AdminController {
     public String updateAdminPassword(@RequestParam("id") int id,
                                       @RequestParam("newPassword") String newPassword,
                                       RedirectAttributes redirectAttributes) {
+
+        System.out.println("Received password update request for ID: " + id);
+        System.out.println("New password (raw): " + newPassword); // Only for testing!
+
         String hashedPassword = passwordEncoder.encode(newPassword);
         adminService.updatePassword(id, hashedPassword);
-        
+
+        System.out.println("Hashed password stored: " + hashedPassword);
         redirectAttributes.addFlashAttribute("successMessage", "Password updated successfully!");
         return "redirect:/admin/list";
-        
     }
+
 
     @Autowired
     private AgentService agentService;
@@ -114,7 +122,8 @@ public class AdminController {
     @PostMapping("/update-agent/{id}")
     public String updateAgentDetails(@PathVariable int id,
                                      @RequestParam("phone") String phone,
-                                     @RequestParam(value = "newPassword", required = false) String newPassword) {
+                                     @RequestParam(value = "newPassword", required = false) String newPassword,
+                                     RedirectAttributes redirectAttributes) {
         if (newPassword != null && !newPassword.isBlank()) {
             String hashedPassword = passwordEncoder.encode(newPassword);
             agentService.updatePhoneAndPassword(id, phone, hashedPassword);
@@ -122,6 +131,7 @@ public class AdminController {
             agentService.updatePhoneOnly(id, phone); 
         }
 
+        redirectAttributes.addFlashAttribute("successMessage", "Updated successfully!");
         return "redirect:/agent/list";
     }
 

@@ -11,6 +11,8 @@ public interface RentalBookingService {
     RentalBooking getBookingById(int id);
     void deleteBooking(int id);
     RentalBooking processReturn(int bookingId);
+    RentalBooking updateBooking(RentalBooking booking);
+
 
 
     List<RentalBooking> searchByCustomerName(String name);

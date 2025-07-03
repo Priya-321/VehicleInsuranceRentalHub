@@ -1,51 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Company Vehicles</title></head>
+<head>
+    <title>Company Vehicles</title>
+    <link rel="stylesheet" th:href="@{/css/rental/company-vehicle-list.css}" />
+</head>
 <body>
-    <h2>Company Vehicles</h2>
- 
 
-	<!-- Search Form -->
-	<form th:action="@{/company-vehicle/search}" method="get" style="margin-bottom: 1rem;">
-	    <input type="text" name="query" placeholder="Search by ID or name" />
-	    <button type="submit">Search</button>
-	</form>
+    <!-- Success Message -->
+    <div th:if="${successMessage}" class="popup success" th:text="${successMessage}"></div>
 
-	<a th:href="@{/dashboard}">Back</a>
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
+    <div class="container">
+        <h2>Company Vehicles</h2>
 
-	<form th:action="@{/company-vehicle/list}" method="get" style="display:inline;">
-		    <button type="submit">View All</button>
-	</form>
+        <!-- Top Buttons -->
+        <div class="top-actions">
+            <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+            <a href="/company-vehicle/form" class="add-btn">+ Add New Vehicle</a>
+        </div>
 
-    <a href="/company-vehicle/form">Add New Vehicle</a>
+        <!-- Search Form -->
+        <form th:action="@{/company-vehicle/search}" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Search by ID or model" />
+            <button type="submit">Search</button>
+            <a href="/company-vehicle/list" class="btn show-all-btn">View All</a>
+        </form>
 
-    <form method="get" th:action="@{/company-vehicle/list}">
-        Filter by Status:
-        <select name="status">
-            <option value="" th:selected="${filter == ''}">All</option>
-            <option value="Available" th:selected="${filter == 'Available'}">Available</option>
-            <option value="Booked" th:selected="${filter == 'Booked'}">Booked</option>
-        </select>
-        <button type="submit">Filter</button>
-    </form>
+        <!-- Filter -->
+        <form method="get" th:action="@{/company-vehicle/list}" class="filter-form">
+            <label for="status">Filter by Status:</label>
+            <select name="status" id="status">
+                <option value="" th:selected="${filter == ''}">All</option>
+                <option value="Available" th:selected="${filter == 'Available'}">Available</option>
+                <option value="Booked" th:selected="${filter == 'Booked'}">Booked</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
 
-    <br/>
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
-    <table border="1">
-        <tr><th>ID</th><th>Model</th><th>Plate</th><th>Type</th><th>Price</th><th>Status</th><th>Action</th></tr>
-        <tr th:each="v : ${vehicles}">
-            <td th:text="${v.id}"></td>
-            <td th:text="${v.model}"></td>
-            <td th:text="${v.numberPlate}"></td>
-            <td th:text="${v.type}"></td>
-			<td th:text="${v.price}"></td>
-            <td th:text="${v.status}"></td>
-            <td><a th:href="@{/company-vehicle/delete/{id}(id=${v.id})}">Delete</a></td>
-        </tr>
-    </table>
+        <!-- Vehicle Table -->
+        <table class="vehicle-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Model</th>
+                    <th>Plate</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="v : ${vehicles}">
+                    <td th:text="${v.id}"></td>
+                    <td th:text="${v.model}"></td>
+                    <td th:text="${v.numberPlate}"></td>
+                    <td th:text="${v.type}"></td>
+                    <td th:text="${v.price}"></td>
+                    <td th:text="${v.status}"></td>
+                    <td>
+                        <a th:href="@{/company-vehicle/delete/{id}(id=${v.id})}" class="delete-link">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Fade-out Popup Script -->
+    <script>
+        const popup = document.querySelector('.popup');
+        if (popup) {
+            setTimeout(() => {
+                popup.style.opacity = '0';
+                popup.style.transform = 'translateY(-20px)';
+                setTimeout(() => popup.style.display = 'none', 500);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
