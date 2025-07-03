@@ -1,18 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Insurance Agent Dashboard</title></head>
+<head>
+    <title>Insurance Agent Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/agent/insurance-dashboard.css}" />
+</head>
 <body>
-    <h2>Welcome, Insurance Agent</h2>
-	
-    <a href="/insurance-customer/form"><button>New Policy</button></a><br/><br/>
+<div class="dashboard-wrapper">
 
-    <ul>
-        <li><a href="/insurance-customer/list">Customers</a></li>
-        <li><a href="/customer-vehicle/list">Customer Vehicles</a></li>
-        <li><a href="/insurance-plan/list">Insurance Plans</a></li>
-        <li><a href="/policy/list">Policies</a></li>
-        <li><a href="/claim/list">Claims</a></li>
-        <li><a href="/logout">Logout</a></li>
-    </ul>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Vehicle Insurance & Rental Hub</h2>
+        <h2>Insurance Panel</h2>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="/insurance-customer/list">Customers</a></li>
+                <li><a href="/customer-vehicle/list">Customer Vehicles</a></li>
+                <li><a href="/policy/list">Policies</a></li>
+            </ul>
+        </nav>
+
+        <form th:action="@{/logout}" method="post">
+            <button class="logout-btn">Logout</button>
+        </form>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <section class="welcome-box">
+            <h1>Welcome Back, Agent!</h1>
+            <p>Manage policies, claims, and insurance records efficiently from one place.</p>
+        </section>
+
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <a href="/insurance-customer/form" class="card">+ New Policy</a>
+                <a href="/insurance-plan/list" class="card">View Plans</a>
+                
+                <a href="/claim/list" class="card">Process Claims</a>
+            </div>
+        </section>
+    </main>
+</div>
 </body>
 </html>

@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Claims</title></head>
+<head>
+    <title>Insurance Claims</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/claim-list.css}" />
+</head>
 <body>
-    <h2>Insurance Claims</h2>
- 
-	<a href="/dashboard">Back to Dashboard</a>
-	
-	<!-- Search + Filter Form -->
-	<form th:action="@{/claim/search}" method="get" style="margin-bottom: 1rem; display: flex; gap: 1rem;">
-	    <input type="text" name="query" placeholder="Search by Policy ID" />
-	    <select name="status">
-	        <option value="">Filter by Status</option>
-	        <option value="Pending">Pending</option>
-	        <option value="Approved">Approved</option>
-	        <option value="Rejected">Rejected</option>
-	    </select>
-	    <button type="submit">Search</button>
-	</form>
+    <div class="container">
+        <h2>Insurance Claims</h2>
 
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
-	
-	<!-- View All Button -->
-	<form th:action="@{/claim/list}" method="get" style="display:inline;">
-	    <button type="submit">View All</button>
-	</form>
+        <div class="top-actions">
+            <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+            <a href="/claim/form" class="add-btn">+ File New Claim</a>
+        </div>
 
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
+        <!-- Search + Filter + View All -->
+        <div class="search-row">
+            <form th:action="@{/claim/search}" method="get" class="search-form">
+                <input type="text" name="query" placeholder="Search by Policy ID" />
+                <select name="status">
+                    <option value="">All Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <button type="submit">Search</button>
+            </form>
 
-    <a href="/claim/form">File New Claim</a><br/><br/>
+            <form th:action="@{/claim/list}" method="get" class="view-all-form">
+                <button type="submit">View All</button>
+            </form>
+        </div>
 
-    <table border="1">
-        <tr>
-            <th>ID</th><th>Policy</th><th>Date</th><th>Description</th><th>Status</th><th>Action</th>
-        </tr>
-        <tr th:each="c : ${claims}">
-            <td th:text="${c.id}"></td>
-            <td th:text="${c.policy.id}"></td>
-            <td th:text="${c.claimDate}"></td>
-            <td th:text="${c.description}"></td>
-            <td th:text="${c.status}"></td>
-            <td><a th:href="@{/claim/delete/{id}(id=${c.id})}">Delete</a></td>
-        </tr>
-    </table>
+        <!-- Table -->
+        <table class="policy-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Policy ID</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${claims}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.policy.id}"></td>
+                    <td th:text="${c.claimDate}"></td>
+                    <td th:text="${c.description}"></td>
+                    <td th:text="${c.status}"></td>
+                    <td>
+                        <a th:href="@{/claim/delete/{id}(id=${c.id})}" class="delete-link">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

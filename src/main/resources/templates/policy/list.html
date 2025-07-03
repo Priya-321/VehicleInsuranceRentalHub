@@ -1,45 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Insurance Policies</title></head>
+<head>
+    <title>Insurance Policies</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/policy-list.css}" />
+</head>
 <body>
+<div class="container">
     <h2>Insurance Policies</h2>
 
-	<a href="/dashboard">Back to Dashboard</a>
-	
-	<form method="get" th:action="@{/policy/search}">
-	    <input type="text" name="query" placeholder="Policy ID or Customer Name" />
-	    Status:
-	    <select name="status">
-	        <option value="">All</option>
-	        <option value="Active">Active</option>
-	        <option value="Expired">Expired</option>
-	    </select>
-	    <button type="submit">Search</button>
-	</form>
+    <div class="top-actions">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
 
-	<div th:if="${errorMessage}" style="color:red;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
-	
-	<!-- View All Button -->
-	<div th:if="${errorMessage} or ${#lists.size(policies) < totalCount}">
-	    <form th:action="@{/policy/list}" method="get">
-	        <button type="submit">View All</button>
-	    </form>
-	</div>
+    <!-- Search & View All in One Line -->
+    <div class="search-row">
+        <form th:action="@{/policy/search}" method="get" class="search-form">
+            <input type="text" name="query" placeholder="Policy ID or Customer Name" />
+            <button type="submit">Search</button>
+        </form>
+        <form th:action="@{/policy/list}" method="get" class="view-all-form">
+            <button type="submit">View All</button>
+        </form>
+    </div>
 
+    <!-- Filter Line -->
+    <form method="get" th:action="@{/policy/search}" class="filter-form">
+        <label for="status">Filter by Status:</label>
+        <select name="status" id="status">
+            <option value="">All</option>
+            <option value="Active">Active</option>
+            <option value="Expired">Expired</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
 
-    <table border="1">
-        <tr><th>ID</th><th>Vehicle</th><th>Plan</th><th>Status</th><th>Start Date</th><th>End Date</th><th>Action</th></tr>
-        <tr th:each="p : ${policies}">
-            <td th:text="${p.id}"></td>
-            <td th:text="${p.vehicle.registrationNumber}"></td>
-            <td th:text="${p.plan.name}"></td>
-            <td th:text="${p.status}"></td>
-            <td th:text="${p.startDate}"></td>
-            <td th:text="${p.endDate}"></td>
-            <td><a th:href="@{/policy/delete/{id}(id=${p.id})}">Delete</a></td>
-        </tr>
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- Policies Table -->
+    <table class="policy-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle</th>
+                <th>Plan</th>
+                <th>Status</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${policies}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.vehicle.registrationNumber}"></td>
+                <td th:text="${p.plan.name}"></td>
+                <td th:text="${p.status}"></td>
+                <td th:text="${p.startDate}"></td>
+                <td th:text="${p.endDate}"></td>
+                <td>
+                    <a th:href="@{/policy/delete/{id}(id=${p.id})}" class="delete-link">Delete</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
+</div>
 </body>
 </html>

@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Insurance Customers</title></head>
+<head>
+    <title>Insurance Customers</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/customer-list.css}" />
+</head>
 <body>
+<div class="container">
     <h2>Insurance Customers</h2>
 
-	<a href="/dashboard">Back to Dashboard</a>
-	
-	<!-- Search Form -->
-	<form th:action="@{/insurance-customer/search}" method="get" style="margin-bottom: 1rem;">
-	    <input type="text" name="query" placeholder="Search by ID or name" />
-	    <button type="submit">Search</button>
-	</form>
+    <!-- Top Actions -->
+    <div class="top-actions">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+        <a href="/insurance-customer/form" class="add-btn">+ Add New Customer</a>
+    </div>
 
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
-	
-	<!-- View All Button (only shown if error or filtered list is visible) -->
-	<div th:if="${errorMessage} or ${#lists.size(customers) < totalCount}">
-	    <form th:action="@{/insurance-customer/list}" method="get">
-	        <button type="submit">View All</button>
-	    </form>
-	</div>
+    <!-- Search Form -->
+    <form th:action="@{/insurance-customer/search}" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Search by ID or name" />
+        <button type="submit">Search</button>
+        <a href="/insurance-customer/list" class="btn show-all-btn">View All</a>
+    </form>
 
-
-    <form method="get" th:action="@{/insurance-customer/list}">
-        Filter by Agent:
-        <select name="agentId">
-            <option value="">-- All --</option>
+    <!-- Filter by Agent -->
+    <form method="get" th:action="@{/insurance-customer/list}" class="filter-form">
+        <label for="agentId">Filter by Agent:</label>
+        <select name="agentId" id="agentId">
+            <option value="">All</option>
             <option th:each="a : ${agents}" 
                     th:value="${a.id}" 
                     th:text="${a.name}" 
@@ -38,19 +35,36 @@
         <button type="submit">Filter</button>
     </form>
 
-    <br/>
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
-    <table border="1">
-        <tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Agent</th><th>Action</th></tr>
-        <tr th:each="c : ${customers}">
-            <td th:text="${c.id}"></td>
-            <td th:text="${c.name}"></td>
-            <td th:text="${c.email}"></td>
-            <td th:text="${c.phone}"></td>
-            <td th:text="${c.address}"></td>
-            <td th:text="${c.agent.name}"></td>
-            <td><a th:href="@{/insurance-customer/delete/{id}(id=${c.id})}">Delete</a></td>
-        </tr>
+    <!-- Table -->
+    <table class="customer-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Agent</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c : ${customers}">
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.name}"></td>
+                <td th:text="${c.email}"></td>
+                <td th:text="${c.phone}"></td>
+                <td th:text="${c.address}"></td>
+                <td th:text="${c.agent.name}"></td>
+                <td><a th:href="@{/insurance-customer/delete/{id}(id=${c.id})}" class="delete-link">Delete</a></td>
+            </tr>
+        </tbody>
     </table>
+</div>
 </body>
 </html>

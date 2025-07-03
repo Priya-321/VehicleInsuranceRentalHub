@@ -1,32 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add Insurance Customer</title></head>
+<head>
+    <title>Add Insurance Customer</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/customer-form.css}" />
+</head>
 <body>
+<div class="container">
     <h2>Add Insurance Customer</h2>
 
-	<a href="/dashboard-insurance">Back to Dashboard</a>
+    <div class="top-actions">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
 
-    <form th:action="@{/insurance-customer/save}" th:object="${customer}" method="post">
-        Name: <input type="text" th:field="*{name}" /><br/>
-        Email: <input type="email" th:field="*{email}" /><br/>
-        Phone: <input type="text" th:field="*{phone}" /><br/>
-        Address: <input type="text" th:field="*{address}" /><br/>
+    <!-- New Customer Form -->
+    <form th:action="@{/insurance-customer/save}" th:object="${customer}" method="post" class="form-box">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required />
 
-        Agent:
-        <select name="agent">
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required />
+
+        <label>Phone:</label>
+        <input type="text" th:field="*{phone}" required />
+
+        <label>Address:</label>
+        <input type="text" th:field="*{address}" required />
+
+        <label>Agent:</label>
+        <select name="agent" required>
             <option th:each="a : ${agents}" th:value="${a.id}" th:text="${a.name}"></option>
-        </select><br/>
+        </select>
 
-        <button type="submit">Save</button>
+        <button type="submit" class="primary-btn">Save Customer & Proceed</button>
     </form>
-	
-	<h3>Choose Existing Customer</h3>
-	<form method="get" th:action="@{/customer-vehicle/form}">
-	    <label>Select Customer:</label>
-	    <select name="customerId">
-	        <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
-	    </select>
-	    <button type="submit">Continue</button>
-	</form>
+
+    <hr/>
+
+    <!-- Choose Existing Customer -->
+    <h3>Continue with Existing Customer</h3>
+    <form method="get" th:action="@{/customer-vehicle/form}" class="form-box">
+        <label>Select Customer:</label>
+        <select name="customerId" required>
+            <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+
+        <button type="submit" class="secondary-btn">Continue</button>
+    </form>
+</div>
 </body>
 </html>

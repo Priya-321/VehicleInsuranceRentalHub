@@ -1,44 +1,63 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Insurance Plans</title></head>
+<head>
+    <title>Insurance Plans</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/plan-list.css}" />
+</head>
 <body>
+<div class="container">
     <h2>Insurance Plans</h2>
 
-	<a href="/dashboard">Back to Dashboard</a>
+    <div class="top-actions">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+        <a href="/insurance-plan/form" class="add-btn">+ Add New Plan</a>
+    </div>
+
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
 	
-	<div th:if="${errorMessage}" style="color:red;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
-	
-	<!-- View All Button -->
-	<div th:if="${#lists.size(plans) < totalCount}">
-	    <form th:action="@{/insurance-plan/list}" method="get">
-	        <button type="submit">View All</button>
+	<div class="filter-row">
+	    
+
+	    <!-- Filter Form -->
+	    <form method="get" th:action="@{/insurance-plan/list}" class="filter-form-inline">
+	        <input type="number" name="duration" placeholder="Duration (months)" />
+	        <input type="number" step="0.01" name="maxPremium" placeholder="Max Premium" />
+	        <input type="text" name="keyword" placeholder="Name contains" />
+	        <button type="submit">Apply</button>
 	    </form>
+		<!-- View All Button -->
+			    <form th:action="@{/insurance-plan/list}" method="get" class="view-all-form">
+			        <button type="submit">View All</button>
+			    </form>
 	</div>
+    
 
-    <a href="/insurance-plan/form">Add New Plan</a><br/><br/>
-
-    <form method="get" th:action="@{/insurance-plan/list}">
-        Filter:
-        Duration (months): <input type="number" name="duration" />
-        OR Max Premium: <input type="number" step="0.01" name="maxPremium" />
-        OR Name Contains: <input type="text" name="keyword" />
-        <button type="submit">Apply</button>
-    </form>
-
-    <br/>
-
-    <table border="1">
-        <tr><th>ID</th><th>Name</th><th>Duration (months)</th><th>Premium</th><th>Description</th><th>Action</th></tr>
+    <!-- Table -->
+    <table class="plan-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Duration</th>
+            <th>Premium</th>
+            <th>Description</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr th:each="p : ${plans}">
             <td th:text="${p.id}"></td>
             <td th:text="${p.name}"></td>
             <td th:text="${p.durationInMonths}"></td>
             <td th:text="${p.premium}"></td>
             <td th:text="${p.description}"></td>
-            <td><a th:href="@{/insurance-plan/delete/{id}(id=${p.id})}">Delete</a></td>
+            <td><a th:href="@{/insurance-plan/delete/{id}(id=${p.id})}" class="delete-link">Delete</a></td>
         </tr>
+        </tbody>
     </table>
+</div>
 </body>
 </html>

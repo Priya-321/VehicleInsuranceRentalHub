@@ -1,0 +1,134 @@
+:root {
+    --primary-color: #2d3436;
+    --accent-color: #00b894;
+    --error-color: #d63031;
+    --bg-color: #f8f9fa;
+}
+
+/* Base */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: var(--bg-color);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+/* Headings */
+h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Buttons & Links */
+.back-btn {
+    color: var(--primary-color);
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.search-form button,
+.view-all-form button,
+.filter-form button {
+    padding: 10px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Search Row */
+.search-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+	margin-top: 15px;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.search-form input,
+.search-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    flex: 1 1 200px;
+}
+
+.view-all-form {
+    flex-shrink: 0;
+}
+
+/* Filter Row */
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-form select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    flex-grow: 1;
+}
+
+/* Error Message */
+.error-message {
+    color: var(--error-color);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Table Styling */
+.policy-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.policy-table th,
+.policy-table td {
+    padding: 12px;
+    border-bottom: 1px solid #dfe6e9;
+    text-align: left;
+}
+
+.policy-table th {
+    background-color: #dfe6e9;
+    color: var(--primary-color);
+}
+
+.policy-table tr:hover {
+    background-color: #f1f2f6;
+}
+
+/* Links */
+.delete-link {
+    color: var(--error-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}

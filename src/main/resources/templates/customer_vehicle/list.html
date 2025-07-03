@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Customer Vehicles</title></head>
+<head>
+    <title>Insured Customer Vehicles</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/customer-vehicle-list.css}" />
+</head>
 <body>
+<div class="container">
     <h2>Insured Customer Vehicles</h2>
 
-	<a href="/dashboard">Back to Dashboard</a>
-	
-	<!-- Search Form -->
-	<form th:action="@{/customer-vehicle/search}" method="get" style="margin-bottom: 1rem;">
-	    <input type="text" name="query" placeholder="Search by ID or customer name" />
-	    <button type="submit">Search</button>
-	</form>
-	<!-- View All Button (only shown if error or partial list) -->
-	<div th:if="${errorMessage} or ${#lists.size(vehicles) < totalCount}">
-	    <form th:action="@{/customer-vehicle/list}" method="get">
-	        <button type="submit">View All</button>
-	    </form>
-	</div>
+    <div class="top-actions">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
 
+    <!-- Search Form -->
+    <form th:action="@{/customer-vehicle/search}" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Search by ID or customer name" />
+        <button type="submit">Search</button>
+        <a href="/customer-vehicle/list" class="btn show-all-btn" 
+           th:if="${errorMessage} or ${#lists.size(vehicles) < totalCount}">View All</a>
+    </form>
 
-	<!-- Error Message -->
-	<div th:if="${errorMessage}" style="color: red; font-weight: bold;">
-	    <p th:text="${errorMessage}"></p>
-	</div>
+    <!-- Error Message -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
 
-
-
-    <table border="1">
-        <tr><th>ID</th><th>Registration No</th><th>Model</th><th>Type</th><th>Owner</th><th>Action</th></tr>
-        <tr th:each="v : ${vehicles}">
-            <td th:text="${v.id}"></td>
-            <td th:text="${v.registrationNumber}"></td>
-            <td th:text="${v.model}"></td>
-            <td th:text="${v.type}"></td>
-            <td th:text="${v.customer.name}"></td>
-            <td><a th:href="@{/customer-vehicle/delete/{id}(id=${v.id})}">Delete</a></td>
-        </tr>
+    <!-- Vehicle Table -->
+    <table class="vehicle-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Registration No</th>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Owner</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="v : ${vehicles}">
+                <td th:text="${v.id}"></td>
+                <td th:text="${v.registrationNumber}"></td>
+                <td th:text="${v.model}"></td>
+                <td th:text="${v.type}"></td>
+                <td th:text="${v.customer.name}"></td>
+                <td>
+                    <a th:href="@{/customer-vehicle/delete/{id}(id=${v.id})}" class="delete-link">Delete</a>
+                </td>
+            </tr>
+        </tbody>
     </table>
+</div>
 </body>
 </html>

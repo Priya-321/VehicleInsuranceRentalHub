@@ -1,0 +1,131 @@
+:root {
+    --primary-color: #2d3436;
+    --accent-color: #00b894;
+    --error-color: #d63031;
+    --bg-color: #f8f9fa;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: var(--bg-color);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+
+h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.top-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
+
+.back-btn {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.add-btn {
+    background-color: var(--accent-color);
+	padding: 10px 16px;
+	    border: none;
+	    border-radius: 6px;
+	    text-decoration: none;
+	    font-weight: 500;
+	    color: white;
+}
+
+
+
+.add-btn:hover {
+    background-color: #019170;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filter-form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+}
+
+.filter-form-inline input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    flex: 1 1 180px;
+}
+
+.filter-form-inline button,
+.view-all-form button{
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+
+
+
+
+.plan-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.plan-table th,
+.plan-table td {
+    padding: 12px;
+    border-bottom: 1px solid #dfe6e9;
+    text-align: left;
+}
+
+.plan-table th {
+    background-color: #dfe6e9;
+    color: #2d3436;
+}
+
+.plan-table tr:hover {
+    background-color: #f1f2f6;
+}
+
+.delete-link {
+    color: var(--error-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}

@@ -35,32 +35,43 @@ public class PolicyController {
     }
     
     @GetMapping("/search")
-    public String search(@RequestParam("query") String query, Model model) {
+    public String search(@RequestParam(value = "query", required = false) String query,
+                         @RequestParam(value = "status", required = false) String status,
+                         Model model) {
+
         List<Policy> policies;
 
-        if (query.matches("\\d+")) { // ID Search
+        // If no query, get all policies
+        if (query == null || query.trim().isEmpty()) {
+            policies = policyService.getAllPolicies();
+        } else if (query.matches("\\d+")) { // ID Search
             try {
                 Policy policy = policyService.getPolicyById(Integer.parseInt(query));
                 policies = List.of(policy);
             } catch (NotFoundException e) {
-                policies = policyService.getAllPolicies(); // fallback list
+                policies = policyService.getAllPolicies();
                 model.addAttribute("errorMessage", e.getMessage());
             }
         } else { // Name Search
             policies = policyService.searchByCustomerName(query);
 
             if (policies.isEmpty()) {
-                policies = policyService.getAllPolicies(); // fallback list
+                policies = policyService.getAllPolicies();
                 model.addAttribute("errorMessage", "No policies found for customer name: " + query);
             }
+        }
+
+        // Apply status filter if selected
+        if (status != null && !status.isEmpty()) {
+            policies = policies.stream()
+                    .filter(p -> p.getStatus().equalsIgnoreCase(status))
+                    .toList();
         }
 
         model.addAttribute("policies", policies);
         model.addAttribute("totalCount", policyService.getAllPolicies().size());
         return "policy/list";
     }
-
-
 
     
     @GetMapping("/form")

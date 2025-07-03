@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>File a Claim</title></head>
+<head>
+    <title>File a Claim</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/claim-form.css}" />
+</head>
 <body>
+<div class="container">
     <h2>File Insurance Claim</h2>
 
-    <!-- Customer Search Form -->
-    <form th:action="@{/claim/form}" method="get">
-        Search Customer: <input type="text" name="customerName" th:value="${customerName}" />
-        <button type="submit">Search</button>
-    </form>
+    <div class="top-actions">
+        <a href="/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
 
     <!-- Error Message -->
-    <div th:if="${errorMessage}" style="color: red; font-weight: bold;">
+    <div th:if="${errorMessage}" class="error-message">
         <p th:text="${errorMessage}"></p>
     </div>
 
+    <!-- Customer Search -->
+    <form th:action="@{/claim/form}" method="get" class="search-form">
+        <input type="text" name="customerName" th:value="${customerName}" placeholder="Search Customer by Name" />
+        <button type="submit">Search</button>
+    </form>
+
     <!-- Claim Form -->
-    <form th:action="@{/claim/save}" th:object="${claim}" method="post">
-        Date: <input type="date" th:field="*{claimDate}" /><br/>
-        Description: <textarea th:field="*{description}"></textarea><br/>
-        Status:
+    <form th:action="@{/claim/save}" th:object="${claim}" method="post" class="form-section">
+
+        <label>Date:</label>
+        <input type="date" th:field="*{claimDate}" required />
+
+        <label>Description:</label>
+        <textarea th:field="*{description}" required></textarea>
+
+        <label>Status:</label>
         <select th:field="*{status}">
             <option value="Pending">Pending</option>
             <option value="Approved">Approved</option>
             <option value="Rejected">Rejected</option>
-        </select><br/>
+        </select>
 
-        <!-- Vehicle Dropdown from Policy List -->
         <label>Policy (by Vehicle):</label>
         <select name="policy" required>
             <option value="">-- Select Vehicle --</option>
@@ -34,9 +46,10 @@
                     th:value="${p.id}"
                     th:text="${p.vehicle.registrationNumber + ' (Policy #' + p.id + ')'}">
             </option>
-        </select><br/>
+        </select>
 
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit-btn">Submit</button>
     </form>
+</div>
 </body>
 </html>

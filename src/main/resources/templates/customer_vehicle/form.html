@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Add or Choose Customer Vehicle</title></head>
+<head>
+    <title>Add or Choose Customer Vehicle</title>
+    <link rel="stylesheet" th:href="@{/css/insurance/customer-vehicle-form.css}" />
+</head>
 <body>
+<div class="container">
+
     <h2>Add or Choose Customer Vehicle</h2>
+    <div class="top-actions">
+        <a th:href="@{/insurance-customer/form}" class="back-btn">← Back to Customer</a>
+    </div>
 
-	<a th:href="@{/insurance-customer/form}">← Back to Customer</a>
-
-    <div th:if="${customerId}">
-        <h4>Existing Vehicles for Selected Customer:</h4>
-        <ul>
+    <!-- Existing Vehicle Options -->
+    <div th:if="${customerId}" class="existing-section">
+        <h3>Existing Vehicles for Selected Customer</h3>
+        <ul class="vehicle-list">
             <li th:each="v : ${customerVehicles}">
                 <span th:text="${v.registrationNumber} + ' (' + ${v.model} + ')'"></span>
-                <a th:href="@{/insurance-plan/select-plan(customerId=${customerId}, vehicleId=${v.id})}">Choose</a>
+                <a class="choose-link"
+                   th:href="@{/insurance-plan/select-plan(customerId=${customerId}, vehicleId=${v.id})}">Choose</a>
             </li>
         </ul>
         <hr/>
     </div>
 
-    <form th:action="@{/customer-vehicle/save}" th:object="${vehicle}" method="post">
-        Registration Number: <input type="text" th:field="*{registrationNumber}" required/><br/>
-        Model: <input type="text" th:field="*{model}" required/><br/>
-        Type: <input type="text" th:field="*{type}" required/><br/>
+    <!-- New Vehicle Form -->
+    <form th:action="@{/customer-vehicle/save}" th:object="${vehicle}" method="post" class="form-section">
+        <label>Registration Number:</label>
+        <input type="text" th:field="*{registrationNumber}" required /><br/>
+
+        <label>Model:</label>
+        <input type="text" th:field="*{model}" required /><br/>
+
+        <label>Type:</label>
+        <input type="text" th:field="*{type}" required /><br/>
 
         <input type="hidden" name="customer" th:value="${customerId}" th:if="${customerId}" />
+
         <div th:if="${customerId == null}">
-            Customer:
+            <label>Select Customer:</label>
             <select name="customer" required>
                 <option th:each="c : ${customers}" th:value="${c.id}" th:text="${c.name}"></option>
             </select><br/>
         </div>
 
-        <button type="submit">Add Vehicle</button>
+        <button type="submit" class="submit-btn">Add Vehicle</button>
     </form>
+
+</div>
 </body>
 </html>
