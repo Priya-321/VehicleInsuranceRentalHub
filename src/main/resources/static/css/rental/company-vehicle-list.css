@@ -84,9 +84,16 @@ h2 {
     font-weight: 500;
 }
 
-.search-form .show-all-btn {
+.show-all-btn {
+    background-color: var(--primary-color);
+    color: white;
     padding: 8px 14px;
-    background-color: #999;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.search-form{
+    padding: 8px 14px;
     color: white;
     border-radius: 6px;
     text-decoration: none;
